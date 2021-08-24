@@ -1,0 +1,219 @@
+body {
+    font-family: sans-serif;
+    background:white;
+    font-weight: 500;
+}
+
+.md a {
+    font-family: sans-serif;
+    background: inherit;
+}
+
+a {
+    color: rgb(0, 105, 62) !important;
+}
+
+body,
+table {
+    font-weight: 500;
+    color: #555;
+}
+
+/* em.asterisk {
+    font-style: normal;
+    font-weight: 500;
+    color: #333; 
+} */
+
+
+/* inline and block code */
+.md code {
+    background-color: rgba(0,0,0,.05);
+    /* color: #800; */
+    padding: 0.1em 0.2em;
+    border-radius: 0.15em;
+    font-weight: 600;
+}
+
+.md pre.listing code {
+    background-color: transparent;
+    color: #000;
+    border: none;
+    padding: 0;
+    font-weight: 600;
+}
+
+.calendar {
+    width: 100%;
+}
+
+.calendar .header {
+    /* background-color: #EEE; */
+    font-weight: 700;
+    font-size: 125%;
+    line-height: 1.5em;
+    border-bottom: 3px solid #555;
+}
+
+.calendar th {
+    padding-left: 0.3em;
+}
+
+.calendar td {
+    padding-left: 0.3em;
+}
+
+.calendar .week {
+    text-align: left;
+    font-weight: 700;
+    font-size: 115%;
+    /* font-size: normal; */
+    line-height: 1.25em;
+    background-color: #999;
+    color: white;
+}
+
+.calendar .date {
+    text-align: left;
+    /* width: 3em; */
+    white-space: nowrap;
+}
+
+.calendar .chapters {
+    text-align: left;
+    /* width: 4em; */
+}
+
+.calendar .topics {
+    text-align: left;
+}
+
+.calendar .out {
+    text-align: left;
+    /* width: 3em; */
+}
+
+.md div.title {
+    margin-top: 20px;
+    font-size: x-large;
+}
+
+.emph {
+    color: rgb(255, 160, 15);
+    font-weight: bolder;
+}
+
+
+#navbar {
+    background: rgb(0, 105, 62);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    text-align: center;
+    color: white;
+    -webkit-box-shadow: 0px 5px 20px rgba(0,0,0,0.25);
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.25); 
+}
+
+
+.nav-menu li a {
+    padding: 1ex;
+    color: white !important;
+}
+
+.nav-menu li a.active {
+    /* color: black !important; */
+    /* background: white; */
+    background: rgb(18, 49, 43);
+}
+.nav-menu li a:hover {
+    /* color: rgb(0, 105, 62) !important; */
+    background: #aaa;
+    background:rgb(18, 49, 43);
+}
+
+.nav-menu,.nav-menu ul,.nav-menu li,.nav-menu a {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+    position: relative;
+    font-weight: 700;
+}
+
+.nav-menu ul {
+    opacity: 0;
+    position: absolute;
+    /* top: 0; */
+    /* left: 0; */
+    left: -9999px;
+    z-index: 999;
+    -webkit-transition: opacity .5s;
+    transition: opacity .5s;
+    
+    line-height: 0.75;
+    font-size: 85%;
+    color: rgb(0, 105, 62);
+    background: rgb(0, 105, 62);
+    min-width: 8em;
+    -webkit-box-shadow: 5px 5px 20px rgba(0,0,0,0.25);
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.25); 
+}
+.nav-menu li:hover > ul {
+    left: 0;
+    opacity: 1;
+    z-index: 1000;
+    position: absolute;
+}
+
+.nav-menu li { cursor: default; float: left; }
+.nav-menu ul > li { float: none; display: block; }
+
+/* center */
+/* .nav-center { float: left; } */
+/* .nav-center > li { right: 50%; } */
+
+
+
+
+.brand {
+    float: left;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background-image: url('../images/D-Pine_Rev.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 1ex;
+}
+
+.course {
+    position: relative;
+    display: inline-block;
+    padding: 1ex;
+    color: white !important;
+    float: right;
+    font-weight: 700;
+}
+
+@media screen and (max-width: 480px) {
+    #navbar {
+        font-size: 80%;
+    }
+
+    .brand {
+        display: none;
+    }
+    
+    .course {
+        display: none;
+    }
+}
+
+@media screen {.md .tocTop {
+    display: inline;
+}}
+
+

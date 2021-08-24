@@ -1,0 +1,143 @@
+<meta charset="utf-8"><!-- -*- markdown -*- -->
+<style class="fallback">body{visibility:hidden}</style>
+
+**Assignment 1: Ray Tracing - Rendering your first image**
+
+In this assignment, you will implement the basics of a ray tracer and render your first images. This assignment assumes you've completed the previous one - do not start here before you've completed Assignment 0!
+
+This assignment relies heavily on Peter Shirley's book _Ray Tracing in One Weekend_, and (to a lesser extent) on _Ray Tracing: The Next Week._ Make sure you have copies of these at hand; you can get them for free on the author's website. We recommend reading the entirety of the first in One Weekend book before starting this assignment. 
+
+As always, all the places where you are expected to insert or edit code are marked with `TODO`. To help you with debugging, we provide you with reference images for every image you are expected to create in the `references` folder.
+
+# Task 1: Generating rays and using JSON (1 pt)
+
+Open up `src/01_dirt_tutorial.cpp`. In `main()`, the code will call a series of functions. For now, all are commented out.
+
+Each one of those functions expects you to implement something and will then test that functionality, and they will output information when you run the program. We've commented them out for now so as not to spam your terminal with too much information.
+
+Go ahead and uncomment `testManualCameraImage()`, and have a look at that function further up in the file. Follow the instructions in the code to generate rays over the image plane. The base code will convert your ray directions into pixel colors and write the image to  `scenes/01_raytrace/01_manual_ray_image.png`. Your image should match with the reference image.
+
+![`01_manual_ray_image.png`](https://canvas.dartmouth.edu/courses/48965/files/8415745/preview) 
+
+Uncomment  `testJSON` and have a look at that function. This function teaches you about JSON, but it has a bug. Can you spot it? Fix it and have a look at `functionWithJSONParameters`, which asks you to read some parameters.
+
+Finally, uncomment `testCameraClassImage()` and go to that function. This function also generates rays, but this time it does it by calling the _generateRay_ function of the camera class. Head over to _camera.h_. You will have to implement two things here: The camera constructor, which should read the `"vfov"` parameter from JSON to get the vertical field of view, and compute the size of the image plane and assign it to `m_size`; follow Chapter 10 in the Shirley book for this. Then you should implement `generateRay`. This function gets passed a pixel coordinate, and should output a ray, similar to what you did in `testManualCameraImage` – except that now, the size of the image plane is given by `m_size`. After you complete this task, you will have an output image in `scenes/01_raytrace/01_camera_ray_image.png`. Compare it to the reference.
+
+![01_camera_ray_image.png](https://canvas.dartmouth.edu/courses/48965/files/8415746/preview) 
+
+# Task 2: Transforms (1 pt)
+
+In this task, you will learn how to use transforms.
+
+Go ahead and uncomment `testTransforms()` and take a look at that function. This function makes use of the transform class, which knows how to transform points, vectors, normals and rays between spaces. This function will test your code, you don't have to do anything here – instead, open up `transform.h` and fill in the methods marked as `TODO`. Follow the instructions in the code. After you're done, run your code and make sure the output is correct (the base code will tell you).
+
+After your transforms work correctly, uncomment `testXformedCameraImage()` and head over to that function. This will write out another image of ray directions, but this time it will do it using a transformed camera. Open up `camera.h:generateRay` and make sure you transform the ray into world space after you have generated it (hint: the camera transform is in `m_xform`). Multiply the ray by the transform. If you did this correctly, `scenes/01_raytrace/01_xformed_camera_ray_image.png` will match the reference image.
+
+![01_xformed_camera_ray_image.png](https://canvas.dartmouth.edu/courses/48965/files/8415744/preview) 
+
+# Task 3: Spheres (2 pt)
+
+With rays being generated correctly, you are now ready to intersect things!
+
+Uncomment `testRaySphereIntersection()` and head on over to that function. This function will intersect two different spheres and check if the results are correct. Open up `sphere.cpp` and look at `intersect`. You will need to implement code that intersects the sphere and, if the sphere was hit, fills in the `hit` struct with information about the intersection. You will need to figure out the hit distance, the intersection point and the hit normal. If you're unsure how to do this, check the lecture slides and Chapter 4 & 5 of the Shirley book.
+
+The test code first checks your code for an untransformed sphere, and then for a sphere with a transform applied. To make the transform work, you will first need to transform the ray into the local coordinate system of the sphere, and then transform the hit normal/hitpoint back to the world coordinate system. If you are unsure how to transform things correctly, we have implemented an intersect routine for a quad in `quad.cpp` which you can use as inspiration.
+
+!!! Note: Important!
+    To make later tasks work correctly, you should only return true if the hit distance lies within the `mint`/`maxt` interval of the ray. You can look at `quad.cpp:intersect` to see how you can do this.
+
+Uncomment `testSphereImage()` and take a look at that function. It will raytrace an image of a sphere and save it as `scenes/01_raytrace/01_xformed_camera_sphere_image.png`; comparing that image to the reference might help you debug your sphere implementation if something isn't working right.
+
+![01_xformed_camera_sphere_image.png](https://canvas.dartmouth.edu/courses/48965/files/8415748/preview)
+
+# Task 4: Materials (3 pt)
+
+Uncomment `testMaterials()` and take a look at that function. It instantiates a Lambertian and a Metal material and generates a scattered ray from it.
+
+Head on over to `material.cpp`. There are two functions you need to implement here: `Lambertian::scatter` and `Metal::scatter`. Go over the Shirley book (Chapter 7 and 8) and the lecture slides to get an idea for what you need to do. Please take a close look at the comments in the code - there is a small error in the text book, and we tell you how to avoid it.
+
+`testMaterials()` will generate a single scattered ray and check if the ray origin, direction and attenuation are correct. Because the scatter method is random, it is difficult to test, and there are multiple correct ways to implement this method. We provide test data using the "obvious" implementation, but maybe you did it differently - in that case you won't lose points if the next task still renders correctly. Take the results of the autotester with a grain of salt.
+
+**Y**ou also need to implement `Dielectric::scatter`. You can follow the Shirley book (Chapter 9) for your implementation. After you have completed the entire assignment, you can run your renderer on scenes with glass to test/debug your implementation.
+
+# Task 5: Recursive Ray Tracing (3 pt)
+
+If you've come this far, you have reached the home stretch of this assignment!
+
+Go ahead and uncomment `testRecursiveRaytracing()`. This function generates the first "real" scene with materials and light. Because the scattering off of materials is random, this function should trace multiple rays and average their results.
+
+In `testRecursiveRaytracing()`, you should implement a for loop that makes `NumSamples` calls to `recursiveColor()` in each pixel and averages the results.
+
+Take a look at `recursiveColor`. This function should trace a ray into the scene, and if it hits something, it should scatter off of the material that was hit and call `recursiveColor` again to get the color of the scattered ray. You can take the pseudo code as inspiration for what you need to do.
+
+If you've implemented it correctly, it will save an output image in `scenes/01_raytrace/01_recursive_raytracing.png` that should match the reference:
+
+![01_recursive_raytracing.png](https://canvas.dartmouth.edu/courses/48965/files/8415747/preview)
+
+This task might be slow to run - if it takes too long, make sure you are compiling in _Release_ mode rather than _Debug_ mode.
+
+# Task 6: Scene Renderer (1 pt)
+
+Finally, you can combine everything from the previous assignments by filling in the code in `scene.cpp`. Go to `recursiveColor` and fill in the recursive ray tracing function.
+
+This code is very similar (in fact, almost identical) to the code you've had in Task 5\. You can copy in your code from task 5 to start you off. The scene class has a dedicated `intersect(ray, hit)` method that you should use to intersect geometry. Also your code should accumulate emission (if any) at each hit point. See the pseudocode for more details.
+
+Finally, you should fill in `Scene::raytrace()`. You can base this on `testRecursiveRaytracing` from the previous task to get an idea of how to implement this.
+
+We provide you with a standalone renderer, `dirt`, and a few test scenes that you can test your implementation with. Once you've implemented this task, take a look at the `*.json` files in `scenes/01_raytrace`. You can run the `dirt` renderer on these scene files, using the terminal like so:
+
+![run-dirt.png](https://canvas.dartmouth.edu/courses/48965/files/8415749/preview)
+
+Run your renderer on each of the JSON scene files we provide and compare the output to the reference images. If you've implemented all the tasks correctly, the images should match.
+
+Be aware that depending on how you implemented your code, you might get differences in the noise patterns between your image and the reference. This is normal. However, if you "squint your eyes", the images should match.
+
+![01_plane-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415751/preview)
+![02_balls-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415750/preview)
+![03_refl-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415743/preview)
+![04_refr-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415752/preview)
+![05_quad-light-ref-GRAD.png](https://canvas.dartmouth.edu/courses/48965/files/8415753/preview)
+![06_cornell-box-ref-GRAD.png](https://canvas.dartmouth.edu/courses/48965/files/8415754/preview)
+
+
+
+## What to submit
+
+**Please read the following instructions carefully: Include the required files and nothing else. Do not pack the required files into a containing folder, just zip the files directly.**
+
+Please edit the `report/report.html` report template and fill in your feedback, comments and optional explanations. Add a section for each task. If a task provides a reference image, please include a comparison between the image produced by your code and the reference (the template shows you how to do this easily).
+
+Upload a zip file containing
+
+*   The source code (the entire `include/` and `src/` folders)
+*   An `output.txt` file that contains the output of the `01_dirt_tutorial` program. You can create this by running  
+
+    ~~~ bash
+    $ build/01_dirt_tutorial > output.txt
+    ~~~
+
+    on the command line from your `dirt_basecode` root directory.
+*   The `report` folder.
+
+**Do not submit any binaries. Do not include your build folder in the zip file. Do not put the required files/folders into a containing folder; zip them directly and submit the zip file.**
+
+
+<script>
+markdeepOptions = {tocStyle: 'medium'};
+</script>
+
+<link rel="stylesheet" type="text/css" href="../css/common.css?">
+<!-- Markdeep: -->
+<script src="../js/markdeep.min.js"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+
+<!-- <script src="../js/common.js"></script> -->
+<!-- <style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="../js/markdeep.min.js"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="../js/jquery.event.move.js"></script>
+<script src="../js/jquery.twentytwenty.js"></script>
+<link href="../css/offcanvas.css" rel="stylesheet" type="text/css" />
+<link href="../css/twentytwenty.css" rel="stylesheet" type="text/css" />
+<script>
+$(window).load(function(){$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});});
+</script>
