@@ -1,12 +1,20 @@
 <meta charset="utf-8"><!-- -*- markdown -*- -->
 <style class="fallback">body{visibility:hidden}</style>
 
-**CS1: Introduction to Programming & Computation**
-  *Spring 2021* - [Dartmouth College](http://www.dartmouth.edu) -- Prof. [Wojciech Jarosz](http://cs.dartmouth.edu/~wjarosz)
+**CS87/287: Rendering Algorithms**
+  *Fall 2021* - [Dartmouth College](http://www.dartmouth.edu) -- Prof. [Wojciech Jarosz](http://cs.dartmouth.edu/~wjarosz)
 
-CS 1 will teach you to design, write, and analyze code to solve computational problems from a range of disciplines.  You'll also learn to think about problems the way a computer scientist thinks -- a skill that is valuable in any field. The course is suitable for students with no previous background in Computer Science, and no knowledge of mathematics beyond high-school algebra.
+How are the photorealistic images in animated films, visual effects, or architectural pre-visualization created?
 
-CS 1 fulfills the TLA distributive requirement, and is the introductory course for the Computer Science major and minor.
+This class focuses on advanced 3D graphics techniques for realistic image synthesis. You will learn how light interacts with objects in the real world, and how to translate the underlying math and physics into practical algorithms for rendering photorealistic images.
+
+(#) Prerequisites
+
+* COSC 11,
+* COSC 50,
+* or instructor's permission
+
+We will rely on calculus, linear algebra and use basic concepts of algorithms and data structures. Students are expected to be familiar with the C++ programming language that we'll use in the programming assignments. Graduate students should have taken a course in multi-variable calculus equivalent to MATH 8.
 
 
 Administrative details
@@ -14,24 +22,12 @@ Administrative details
 
 Lecture location
 ---------------------------------------------------------------------
-
-Via Zoom meeting. Link posted on [Canvas homepage](https://canvas.dartmouth.edu/courses/46160/assignments/syllabus).
+TBD
 
 Class times
 ---------------------------------------------------------------------
-* MWF 1:10 pm to 2:15 pm, x-hour: Tuesday 1:40 to 2:30 pm
+* MWF 10:10am – 11:15am, x-hour: Thursday 12:15pm–1:10pm
 
-Textbook and software
----------------------------------------------------------------------
-
-There is a free on-line textbook for the course, [Project Python](http://projectpython.net). Links to the relevant sections of the text will be posted for each lecture on the [schedule page](../schedule/). We wrote the text as lecture notes for this course.
-
-!!! Tip
-    Reading the text and doing the exercises in it daily are necessary to do well in this course.
-
-We will be using PyCharm to edit and run code.  You will install this software on your own computer as part of the first short assignment.
-
-All documents, video recordings, class examples, lab assignments, short assignments, and sample solutions related to the course will be either on the site you are viewing now (I recommend that you use Chrome to view this site as some of the interactive features are not compatible with all browsers) or on the course Canvas page.
 
 Course staff
 ---------------------------------------------------------------------
@@ -40,153 +36,107 @@ Professor
 : Wojciech Jarosz
 
 TA
-: Sean Paulsen
+: TBD
 
-Section leaders
-: Kathy Cui,
-: Brandon Guzman,
-: Henry Kim,
-: Eunice Kweon,
-: Rachael Williams,
-: Ikeoluwa Abioye
-
-
-Recitation section
----------------------------------------------------------------------
-
-!!! Warning
-    **You are required to attend a one-hour recitation section meeting each week.** Attendance is mandatory; section leaders will take attendance.
-
-During your weekly recitation sections you will solve small problems, either programming or written work. You must have your laptop, with all the CS1 software installed, available during recitation. You must attend your own recitation to be marked as present. **Recitation sections will begin the week of Monday, April 5th, 2021.**
-
-You will be assigned a section based on your availability and timezone.
-
-You will fill out a form listing your availability for sections as part of [Short Assignment 0](../sa00/)
-
-Lecture
----------------------------------------------------------------------
-
-I like it when you **ask questions during lecture**. Chances are that if you have a question, then at least one other student has the same question.
-
-In a remote learning setting it is very easy to get distracted by your environment, including other open windows on your laptop and your phone. Try your best to avoid any possible distraction during the class Zoom meetings.
-
-Research shows that having your video turned-on helps you to stay engaged during an online meeting. I strongly encourage you to do so. 
-
-
-Coursework and grading
+Coursework
 =====================================================================
 
-As a part of this course there will be 9 short assignments, 4 labs, 8 recitations, and 5 exams. These will be weighted as follows: 
+This is a project-based course, and the majority of your grade will come from programming assignments, which you'll find in the Assignments section of the website. There will also be in-class hand-written quizzes and/or an exam. I will post slides online after lecture, which you can access in the Files section, or by clicking on the corresponding lecture in the course Calendar. Check the weekly schedule below.
+
+For the programming assignments, you will initially receive a very basic ray tracing framework that lacks most rendering-related functionality. As we discuss various concepts in class (the physics of light, how light interacts with surfaces and volumes, the Monte Carlo method and sampling), you will apply that knowledge in a series of programming assignments, implementing increasingly sophisticated rendering algorithms in your own software.
+
+By the end of the quarter your software will have a basic set of features allowing you to create simple photorealistic images by simulating the physics of light in a virtual scene. In the last programming assignment you will implement a set of additional features of your own choosing and create a photorealistic image that is both technically and artistically compelling.
+
+
+Textbooks
+=====================================================================
+
+Beyond lecture material, we will rely on four books in this class:
+
+![](https://raytracing.github.io/images/RTOneWeekend.jpg height=200) ![](https://raytracing.github.io/images/RTNextWeek.jpg height=200) ![](https://raytracing.github.io/images/RTRestOfYourLife.jpg height=200) ![](https://www.pbrt.org/images/bookcover.png height=200)
+
+Firstly, we will be using Peter Shirley's excellent and very accessible _Ray tracing_ series of 3 mini e-books. These books are short, fun and informal – more like blog posts than textbooks – and are a great way to get started on this exciting topic. We will refer to these as Shirley1, Shirley2, and Shirley3. We will primarily focus our attention on these books in the beginning of the class.
+
+On the other end of the spectrum, we will be also be using _Physically Based Rendering, Third Edition: From Theory To Implementation_ by Matt Pharr, Wenzel Jakob, and Greg Humphreys. This is a big (sometimes intimidating) textbook, with all the mathematical details you will need to dive deep into the rendering topic of this class. We will use this mostly as a reference to complement the Shirley mini-books and lecture but will also increasingly shift our focus to this book as the quarter progresses.
+
+Obtaining the books
+-------------------
+
+Luckily, you don't have to pay a lot to get any of these textbooks!
+
+You can download Shirley's Ray tracing series for free here ([In One Weekend](http://www.realtimerendering.com/raytracing/Ray%20Tracing%20in%20a%20Weekend.pdf), [The Next Week](http://www.realtimerendering.com/raytracing/Ray%20Tracing_%20The%20Next%20Week.pdf), [The Rest Of Your Life](http://www.realtimerendering.com/raytracing/Ray%20Tracing_%20the%20Rest%20of%20Your%20Life.pdf)). Alternatively, you can purchase the Kindle version of this series from Amazon ([In One Weekend](https://amazon.com/dp/B01B5AODD8), [The Next Week](https://amazon.com/dp/B01CO7PQ8C), [The Rest Of Your Life](https://amazon.com/dp/B01DN58P8C)). Half of the proceeds of these sales go to [Hack the Hood](https://hackthehood.org/), a really neat organization.
+
+The can access PDFs of the individual chapters of PBRT through [Science Direct](http://www.sciencedirect.com/science/book/9780128006450) if you are accessing it from a Dartmouth IP address. The entire book is also available as a [free interactive website](http://www.pbr-book.org/). If you want to get the physical book, you can purchase it from [Amazon](https://smile.amazon.com/Physically-Based-Rendering-Third-Implementation/dp/0128006455).
+
+
+Assigned reading
+----------------
+
+There will be reading from these book each week to supplement the material discussed in lecture. I'll list the relevant reading in the description of the corresponding lecture event in the Calendar.
+
+
+Learning Outcomes
+=================
+
+By the end of the course, you will be able to:
+
+*   Explain the physical quantities of light transport and perform basic computations using pencil & paper
+*   Explain a variety of models describing how light interacts with different materials
+*   Explain the rendering and radiative transfer equations and show how to construct Monte Carlo methods to solve them
+*   Design and implement an advanced rendering system based on Monte Carlo integration
+*   Assess / evaluate the strengths, weakness, and capabilities of various rendering algorithms
+
+
+Grading Scheme
+==============
 
 Grading Component       |  Percentage
 ------------------------|-------------
-Short assignments       | 10%
-Labs:                   | 38%
-Recitation:             | 2%
-Exams (best 4 out of 5) | 50%
+Programming assignments | 50%
+Exam(s)/Quizzes:        | 25%
+Final project:          | 20%
+Participation           | 5%
 
-I will be following an absolute grading policy for assigning a letter grade in this course: 
-
-Grade |  Percentage
-------|------------------------------
-A     | final score &ge; 97%
-A-    | 97% &gt; final score &ge; 91%
-B+    | 91% &gt; final score &ge; 86%
-B     | 86% &gt; final score &ge; 81%
-B-    | 81% &gt; final score &ge; 76%
-C+    | 76% &gt; final score &ge; 71%
-C     | 71% &gt; final score &ge; 66%
-C-    | 66% &gt; final score &ge; 60%
-D     | 60% &gt; final score &ge; 55%
-E     | 55% &gt; final score
+!!! WARNING: Disclaimer!
+    This grade breakdown is subject to adjustments.
 
 
-Exams
----------------------------------------------------------------------
+Graduate & Extra Credit
+-----------------------
 
-There will be five exams and only the best four scores will count towards your final grade. I will announce the dates for first four exams during the term and the fifth exam will be scheduled on the day of the final exam. The final exam is scheduled by the Registrar.  
+Grads and undergrads enrolled in the class will be graded separately and we will generally grade grads more strictly. Additionally, the programming assignments will sometimes include extra portions that will be required for grads and may count as extra credit for undergrads. We will grade these separately and grant extra credit only if the foundation of the original assignment has been completed correctly (e.g., at least 90% of the original requirements/grade are met).
 
-Short assignments
----------------------------------------------------------------------
+Occasionally we will include the possibility to earn “Hacker Points”. Hacker Points are “underpriced” bonus points for the daring few. Sometimes this might require implementing something that was not taught in class or something that requires some additional research and creative thinking. Hacker Points are awarded only to students who implemented all of the remaining assignment. In addition Hacker Points are either fully awarded or not awarded at all.
 
-Short assignments are relatively brief exercises that are usually due in two or three days. Short assignments will usually consist of one or two short programs to help you understand the concept being covered. You will have 2 extensions (up to 24 hours for each extension) that you can use for short assignments.
+At the end of the course, extra credit and hacker points will not be added directly to your score. Instead, we will consider your extra credit to potentially round your grade more favorably when discretizing to letter grades.
 
-Section leaders will grade your short assignments on a scale of 0 to 5.
 
-Lab assignments
----------------------------------------------------------------------
+Submission Deadlines & Grading
+------------------------------
 
-There will be four in-depth lab assignments; you will have one week to work on each lab. You may use your own computer wherever you like, just as you do for short assignments.
+Students will turn in their code through Canvas, and we will have a **strict deadline**. We will strive to post programming assignment grades on Canvas within roughly a week of the due date. The assignments will build off of each other, so you do not want to fall behind! There is a stiff penalty for late submissions, as discussed in the first lecture. Exception to this rule might be made for special cases only if the professor is informed well before (e.g. not a couple days before) the deadline, or in the case of a medical emergency, and at the professor’s sole discretion.
 
-Lab assignments require a significant time commitment. Start early, and if you need to, get advice from me, the section leaders or the TAs.  For each lab, there will also be a checkpoint, due a few days after the lab is assigned.  Checkpoints will be graded as part of your lab grade.  You will have 2 extensions (up to 24 hours) that you can use for lab assignments.
+It’s up to you to check that assignments have been successfully submitted to Canvas; if there are any problems, you must notify course staff by email immediately (not weeks later, claiming “Canvas ate it”).
 
-Extra credit
----------------------------------------------------------------------
 
-Some of the assignments may suggest extra credit work. Extra credit in this course will be tallied separately from regular scores.  If you end up on a borderline between two grades at the end of the course, extra credit will count in your favor.  Failure to do extra credit will never be counted against you. You should do extra credit work if you find it interesting and think that it might teach you something.  It never pays to skimp on the regular assignments in order to do extra credit problems.
+Rendering Competition
+=====================
 
-If you get a 30 on a lab assignment and also 5 points of extra credit, that is *not* the same as getting a 35 with no extra credit.  The latter is far better.
+The class culminates with a final project and rendering competition. The purpose of the final project is to add additional advanced features to your rendering software and compete with your classmates to generate the most photorealistic image. Each student will choose an motivational image/scene which they would like to recreate virtually using their software, and must implement the necessary features to achieve their artistic vision. Students will briefly present their final projects during the final exam period to a panel of expert judges, who will evaluate the entries both in terms of technical achievement and artistic quality.
 
-How to get help
-=====================================================================
+!!! WARNING:
+    Participation in the final project presentations is mandatory. This is scheduled during our final exam period, which is November 26th, 8am-11am. Put this in your calendar.
 
-There are many ways for you to get help!
+For inspiration, take a look at the rendering competition results from prior iterations of this course, or similar courses at other universities:
 
-Your first step should be to ask a question on Slack. 
-
-Each of the TAs and section leaders will hold three hours of office hours per week. I also hold office hours each week. The office hours will be posted on our Canvas page. 
-
-You can visit me or course staff during office hours. If for some reason none of the office hours work, you can make an appointment with me or a TA or your section leader.
+* Dartmouth ([2019](http://www.cs.dartmouth.edu/~rendering-competition/fa2019/), [2018](http://www.cs.dartmouth.edu/~rendering-competition/sp2018/), [2017](http://www.cs.dartmouth.edu/~rendering-competition/sp2017/), [2016](http://www.cs.dartmouth.edu/~rendering-competition/sp2016/))
+* EPFL ([2019](https://rgl.epfl.ch/pages/courses/cs440/sp19/competition2019), [2018](https://rgl.epfl.ch/pages/courses/cs440/sp18/competition2018), [2017](https://rgl.epfl.ch/pages/courses/cs440/sp17/competition2017))
+* ETH Zurich ([2017](https://graphics.ethz.ch/teaching/cg17/competition/competition.php), [2016](https://graphics.ethz.ch/teaching/cg16/competition/competition.php), [Fall 2015](https://graphics.ethz.ch/teaching/cg15/competition/competition.php), [Spring 2015](https://graphics.ethz.ch/teaching/imsynth15/competition/competition.php), [2014](https://graphics.ethz.ch/teaching/imsynth14/competition/competition.php), [2013](https://graphics.ethz.ch/teaching/imsynth13/competition/competition.php), [2012](https://graphics.ethz.ch/teaching/imsynth12/competition/competition.php))
+* UC San Diego ([2011](http://graphics.ucsd.edu/courses/rendering/2011/), [2010](http://graphics.ucsd.edu/courses/rendering/2010/), [2008](http://graphics.ucsd.edu/courses/rendering/2008/), [2007](http://graphics.ucsd.edu/courses/rendering/2007/), [2006](http://graphics.ucsd.edu/courses/rendering/2006/), [2005](http://graphics.ucsd.edu/courses/rendering/2005/), [2004](http://graphics.ucsd.edu/courses/rendering/2004/), [2003](http://graphics.ucsd.edu/courses/rendering/2003/))
+* [Stanford](https://graphics.stanford.edu/courses/cs348b-competition/).
 
 Policies
 =====================================================================
-
-Honor Principle
----------------------------------------------------------------------
-
-On exams, all work must be your own. For your assignments, you may consult freely with the instructor, TAs, and classmates during the phase of designing solutions, but you should then work individually when creating your programs---typing, documenting, and generating output. During the debugging stage you may discuss your problems with others in the class, but you should not copy code to "fix" bugs.  To do otherwise is a violation of the Academic Honor Principle. If you work with a classmate on any assignment, you should tell us who you worked with in a comment at the beginning of your program. Please note that you can work with a classmate only during the designing stage.  
-
-You should attribute the proper source in any code that you submit that you did not write yourself.  This includes code that you take from outside references -- for example a book other than the course text.  And it even includes code that you take from class examples, a book, or the assignments.  (I agree that may be tedious to attribute the source in code that we have given you, but we want you to be in the habit of attributing your sources.)
-
-It is a violation of the Academic Honor Principle to falsely represent output as coming from your program if it did not.  If you change your program, make sure to generate output from the version of the program that you hand in. 
-
-Over the years we have developed and refined a number of homework problems, and I plan to reuse some of them for this class. You should not look at any solutions to homeworks assigned in previous terms, including sample solutions, or solutions written by other students.
-
-We have had some uncomfortable situations occur in the past.  Two students, Alice and Ralph, discuss an assignment and design their code together.  That is fine.  But then they decide that since their programs would be so similar, they might as well have Alice type in the code, have Ralph make his own copy of the file containing the code, and then have Ralph make his own minor changes.  This is a violation of the Academic Honor Principle.  Although you may discuss and design with others, the code you hand in must be entirely your own.
-
-Here's another situation that occurred.  Trixie and Ed start working independently on a program.  Trixie finishes and has a working version.  Ed has trouble with his.  Trixie helps Ed debug.  That is fine.  But then Trixie realizes that Ed has a section of code that is all wrong and the program she wrote has just the right code for that section.  She shows Ed her program.  Or worse, she gives Ed an electronic copy of her program so that he can just paste in the correct code.  Either action is a violation of the Academic Honor Principle.
-
-Here is a good rule of thumb.  If you are talking in normal English (or Chinese or German or some other natural language) you are probably OK.  If you find yourself talking in Python code, you have crossed the line.  So saying, "Your program runs forever because you have the wrong condition in the while loop" is OK.  But saying, "Change while x == 0: to while x >= 0:" is not.
-
-All assignments are individual assignments and students are not allowed to collaborate to solve the solutions.
-
-If you have any question about whether what you're doing is within the Academic Honor Principle, ask me!  If it's late and you can't find me, you're better off erring on the side of caution.
-
-Most violations of the Academic Honor Principle come down to failure to cite work that is not yours.  If you copy any portion of your program from your friend Elvira and represent it as your work, then you either intended to deceive or were careless about citing.  Either case is a violation of the Academic Honor Principle.  If you copy your entire program from Elvira but include the comment, "This code was copied in its entirety from Elvira," then you cited properly, though you didn't actually do the work.  In this latter case, I would not report a violation of the Academic Honor Principle, though your grade on the assignment would be 0.  But that would be far preferable to a COS hearing.
-
-The same goes for code that you find in some other book or on the Internet.  You are in violation of the Academic Honor Principle if you fail to attribute your sources.
-
-You don't need to cite just because you're using a construct you saw elsewhere.  For example, you need not cite for using `print("something")`, even though it was in the class examples.  That would be like citing "printing press" in an essay!  Nor do you have to cite just because you use a while-loop, even though you saw a while-loop in a class example.  It's when you lift several lines of code from elsewhere that you need to cite.
-
-To cite, include in a comment – near the top of your file is fine – stating where you got the code from:
-
-~~~ python
-# Based on the say_introduction function in chapter 1 of the course notes.
-~~~
-
-I have brought several Academic Honor Principle cases to the COS, and I deeply dislike having to do so. Please don't make me.
-
-(###) **Special note for when you work on a computer that anyone else might use**
-
-If you are working on a computer that someone else in the course might use, you should be very careful to remove your code from the computer when you are all done.  You should probably email your code to yourself before you remove the code.
-
-If you leave your code on a computer, and someone else can see it, then they can copy it and hand it in.  It's often difficult to tell who was the copy-ee and who was the copy-er.  Avoid this situation.
-
-To remove your code, you'll want to delete it from the PyCharm workspace.  And you'll also want to move any other copies on the computer to the Trash (or the Recycling Bin) and empty it.
-
-<!-- ## Religious observances
-
-Some students may wish to take part in religious observances that occur during this academic term.  If you have a religious observance that conflicts with your participation in the course, please meet with me before the end of the second week of the term to discuss appropriate accommodations. -->
 
 Student Accessibility and Accommodations
 ----------------------------------------
@@ -260,28 +210,6 @@ The remainder is standard text provided by Dartmouth [[here](https://dcal.dartmo
   By enrolling in this course, I hereby affirm that I will not make a recording in any medium of any *one-on-one meeting with the instructor or another member of the class or group of members of the class* without obtaining the prior written consent of all those participating, and I understand that if I violate this prohibition, I will be subject to discipline by Dartmouth up to and including separation from Dartmouth, as well as any other civil or criminal penalties under applicable law. I understand that an exception to this consent applies to accommodations approved by SAS for a student's disability, and that one or more students in a class may record class lectures, discussions, lab sessions, and review sessions and take pictures of essential information, and/or be provided class notes for personal study use only.
 
 If you have questions, please contact the Office of the Dean of the Faculty of Arts and Sciences.
-
-Important advice
----------------------------------------------------------------------
-
-Read the material I ask you to read.  Start all assignments early. With few exceptions, at the time you receive an assignment, you'll know everything you need to do it.
-
-Do not be afraid to get help.  The purpose of this course is not to waste your time.  If you are not making progress on a problem, please see me, a TA, or a section leader.
-
-Three final pieces of advice:
-
-1. Don't fall behind in this course.
-
-1. *Don't fall behind in this course.*
-
-1. **DON'T FALL BEHIND IN THIS COURSE.**
-
-The material in CS 1 builds on itself, and the pace is fast.  As a result, it's easy to fall behind in this course, and if you do it's very difficult to recover.
-
-Acknowledgements
-=====================================================================
-This version of the course is based on the course designed by Prof. Balkcom, Prof. Cormen, Prof.Farid, Prof. Jayanti, and Prof. Lakshmi Kommineni. I am thankful to them for the wonderful material they have developed.  
-
 
 <script>
 markdeepOptions = {tocStyle: 'medium'};
