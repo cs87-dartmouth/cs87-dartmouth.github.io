@@ -11,7 +11,8 @@ We will primarily be referring to chapters of Ray Tracing - The Next Week in thi
 !!!Note
     Chapter 2 of the book discusses how to build a bounding volume hierarchy so you can intersect rays quickly against a large collection of triangles or other geometric primitives. While we already provide this for you in the Dirt basecode, you should still read through this chapter and compare our approach in `bbh.h|cpp` to that in the book. Dirt's implementation is based largely on the book, but it does so using C++11 concepts compared to the book's old-school C approach.
 
-# Task 1: Ray-Triangle Intersection (2 pts)
+Ray-Triangle Intersection (2 pts)
+===================================
 
 Triangles are the default modeling primitives in graphics and hence essential for rendering a variety of scenes. The Dirt basecode already provides the ability to load OBJ triangle meshes with potentially thousands or millions of triangles, so you can find nice models online and load them in your renderer. Currently, however, Dirt doesn't know how to intersect a ray with a single triangle. In this task, you will implement a ray-triangle intersection routine. 
 
@@ -21,79 +22,85 @@ There are many established ray-triangle intersection algorithms out there, and y
 
 Once you've finished writing up the intersection code, you can go ahead and run the `build/02_test_tri_intersection` application from the terminal, which will test your intersection code.
 
-Once your tests pass, you can test it on a slightly more complex example: Run the `build/dirt` application from the terminal on the `scenes/02_triangles_textures/simple-geometry.json` scene. This renders a scene with a few simple triangle meshes, which should look like this:
+![ ](https://canvas.dartmouth.edu/courses/48965/files/8415691/preview width="50%") Once your tests pass, you can test it on a slightly more complex example: Run the `build/dirt` application from the terminal on the `scenes/02_triangles_textures/simple-geometry.json` scene. This renders a scene with a few simple triangle meshes, which should look like this:
 
-![simple-geometry-50spp.png](https://canvas.dartmouth.edu/courses/48965/files/8415691/preview)
+Solid textures (3.5 pts)
+========================
 
-# Task 2: Solid textures (3.5 pts)
+Constant textures (1 pts)
+-------------------------
 
-## Task 2.1: Constant textures (1 pts)
-
-### Task 2.1.1: The texture classes
+### The texture classes
 
 Read Ray Tracing - The Next Week: Chapter 3, and create a `Texture` base class following this chapter (perhaps in a new texture.h file within your include/dirt directory. Remember to add this file to the list of headers or source files in CMakeLists.txt). Note that while the book uses lowercase and `snake_case`, our basecode uses capitalized class names and camelBack function names. Try to stick with our convention for consistency. Instead of accepting `u`, `v`, and `p` parameters, we suggest you have your `Texture::value` function take a `const HitInfo &` as the parameter (you can then retrieve `u`, `v`, and `p` from within this `HitInfo`).
 
 Create a derived `class ConstantTexture : public Texture` which has a member variable `Color3f color;` and whose `value(...)` function just returns it. Make a constructor that takes a `const json &j` and tries to assign the parameter named "color" to your color member variable by using `j.value("color", color);`.
 
-### Task 2.1.2: Retrofitting the parser
+### Retrofitting the parser
 
 To make this work with the rest of Dirt, we need to refactor our code a bit so that `Materials` use `Textures` instead of `Color3f`s, and so that it plays nice with our JSON parser. We will structure this based on how we already handle Materials in the code and json scene files.
 
-Take a look at `material.h`. Each derived class has a constructor that accepts a `const json &`.  In `parser.cpp,` the function `parseMaterial` takes a json object, reads the `type` to determine which material should be created, and calls the corresponding constructor with the json object. You should take a similar approach for handling Textures. You can copy over `parseMaterial`, and create a `Texture` version of it; right now you only have one texture type, so return a ConstantTexture if the type is `"constant"`. If the type doesn't match any known texture type, you should return a default texture. You'll need to add a static `defaultTexture()` function to your Texture base class, and have this return a ConstantTexture with a color of your choice (look at how `defaultMaterial()` is implemented in `material.h/material.cpp` for inspiration). The default texture should only be used as a fallback if the scene refers to a texture type that doesn't exist, so make this default color something you'll notice during debugging (like a bright purple). An alternative would be to have the parser throw an exception if the scene refers to an undefined texture name, as `parseMaterial` currently does.
+Take a look at `material.h`. Each derived class has a constructor that accepts a `const json &`.  In `parser.cpp,` the function `parseMaterial` takes a json object, reads the `type` to determine which material should be created, and calls the corresponding constructor with the json object. You should take a similar approach for handling Textures. You can copy over `parseMaterial`, and create a `Texture` version of it; right now you only have one texture type, so return a `ConstantTexture` if the type is `"constant"`. If the type doesn't match any known texture type, you should return a default texture. You'll need to add a static `defaultTexture()` function to your Texture base class, and have this return a ConstantTexture with a color of your choice (look at how `defaultMaterial()` is implemented in `material.h/material.cpp` for inspiration). The default texture should only be used as a fallback if the scene refers to a texture type that doesn't exist, so make this default color something you'll notice during debugging (like a bright purple). An alternative would be to have the parser throw an exception if the scene refers to an undefined texture name, as `parseMaterial` currently does.
 
 Now, change all the `Color3f` members of your `Materials` to `Textures`, e.g. `Color3f albedo;` in `Lambertian` becomes `shared_ptr&lt;const Texture&gt; albedo.` You'll also need to change the corresponding constructors in `material.cpp` to call `parseTexture`, instead of reading a color directly from the passed json object, e.g. this:
-    ``` C++
-    albedo = j.value("albedo", albedo);
-    ```
+    
+~~~ C++
+albedo = j.value("albedo", albedo);
+~~~
+
 becomes:
-    ``` C++
-    albedo = parseTexture(j.at("albedo"));
-    ```
+
+~~~ C++
+albedo = parseTexture(j.at("albedo"));
+~~~
 
 You'll also want to support texturing the `Metal::roughness` parameter. This is currently a float, but you can still turn it into a Texture, and when calling its `value(...)` function, just convert to a scalar using the `luminance()` function in `vec.h`. An alternative approach would have been to treat color and grayscale textures separately, but we'll stick with the simpler approach.
 
-Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/constant-cornell-box.json`.  This scene looks similar to the Cornell box from the previous assignment, except all albedos are now specified with a constant texture.
+![ ](https://canvas.dartmouth.edu/courses/48965/files/8415692/preview width="50%") Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/constant-cornell-box.json`.  This scene looks similar to the Cornell box from the previous assignment, except all albedos are now specified with a constant texture.
 
-![constant-cornell-box-2019-09-18-14-47-29.png](https://canvas.dartmouth.edu/courses/48965/files/8415692/preview)
-
-### Task 2.1.3: Backwards scene compatibility
+### Backwards scene compatibility
 
 One nuisance with our current solution is that we would have to re-write all our previous scene files (that directly specified a color) to instead use a "constant" texture. Previously we could have simply written:  
-``` JSON
+
+~~~ JSON
 "albedo": [0.8, 1.0, 0.3],
-```
+~~~
 in the scene file, but now we have to instead write the more clunky:  
-``` JSON
+~~~ JSON
 "albedo":
 {
     "type": "constant",
     "color": [0.8, 1.0, 0.3]
 }
-```
+~~~
 
 Let's add backwards compatibility so that the scene can specify colors directly too. To distinguish between these two forms, you can inspect the `const json &j` by calling `j.is_object()`, `j.is_array()` or `j.is_number()`.  In `parseTexture(...)` you should check whether `j` is an array or number, and create a `ConstantTexture` directly in these cases (you may also need to modify the `ConstantTexture` constructor to handle this). If `j` is an object, you can use your code from 2.1.2 to construct the appropriate texture.
 
 Once you have this implemented, you should be able to render all the scenes from the previous assignment. Give it a try.
 
-## Task 2.2: Checkerboard (1 pts)
+Checkerboard (1 pts)
+--------------------
 
 You now have the framework to easily add other types of textures, and these textures can be used any place you previously used a fixed Color3f! Add a CheckerTexture class following the description in Chapter 3, but adapted to the Dirt framework. You should use two `shared_ptr&lt;const Texture&gt;`s instead of the raw Texture pointers used in the book. Your constructor should look for properties named "odd" and "even" and use the `parseTexture` function you've already defined. You'll also need to extend your `parseTexture` function to handle this new type of texture.
 
 Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/checker.json`. 
 
-![checker-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415693/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415693/preview)
 
-## Task 2.3: Perlin noise (1.5 pts)
+Perlin noise (1.5 pts)
+----------------------
 
 Read Chapter 4 of the book. Implement the `Perlin` class. Also implement the `noise_texture` class from the book, but call this `MarbleTexture` instead. Allow the json scene file to specify the `scale` member variable of your `MarbleTexture`, and instead of always interpolating between black and white as in the book, allow the user to specify these two colors in the json scene file just like we did with "odd" and "even" for the checkerboard. Look for the named properties "veins" and "base" in the json object for this purpose.
 
 Render `scenes/02_triangles_textures/marble.json`.
 
-![marble-128spp.png](https://canvas.dartmouth.edu/courses/48965/files/8415694/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415694/preview)
 
-# Task 3: Image texture mapping (2.5 pts)
+Image texture mapping (2.5 pts)
+===============================
 
-## Task 3.1: The ImageTexture class (1 pts)
+The ImageTexture class (1 pts)
+------------------------------
 
 Read Chapter 5 of the book and implement image texturing mapping. We already provide you with image loading support, which you should leverage using the Image3f class. Your `ImageTexture` class should accept a `"filename"` string parameter from the json object. Once you read this string, use the global file resolver to resolve this filename into a path, like so:
 
@@ -104,25 +111,27 @@ string path = getFileResolver().resolve(filename).str();
 `getFileResolver()` is defined in `common.h`.
 
 
-## Task 3.2: Texture coordinates (1.5 pts)
+Texture coordinates (1.5 pts)
+-----------------------------
 
 Extend your `Sphere::intersect` function to output the UV coordinates as described in the book.
 
 You should now be able to render `scenes/02_triangles_textures/earth.json`
 
-![earth-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415695/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415695/preview)
 
 Now, extend your `Quad::intersect` function to output UV coordinates. Render `scenes/02_triangles_textures/textured-box.json`. 
 
-![textured-box-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415696/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415696/preview)
 
 Finally, extend `Triangle::intersect` to output UV coordinates. You will need to extend `singleTriangleIntersect` to take three `Vec2f` pointers (the uv coordinates for each vertex), in addition to the positions and normals. As with the normals, if the mesh doesn't provide per-vertex UV coorinates, we'll need to fall back to some reasonable default. In this case, you should just store the barycentric coordinates in place of interpolated UV coordinates.
 
 Render `scenes/02/triangles_textures/teapot.json` (a scene with a mesh that has texture coordinates and a texture applied).
 
-![teapot-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415697/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415697/preview)
 
-# Task 4: Blend material (1 pts)
+Blend material (1 pts)
+======================
 
 Now let's create a `BlendMaterial` that is a blend between two other materials. This material should store two `shared_ptrs` to `Materials` (specified as `"a"` and `"b"` in the JSON file), and a `shared_ptr` to a `Texture` (`"amount"` in JSON) specifying the amount of blend between "a" and "b". You'll need to update the parser to support this material type.
 
@@ -130,13 +139,15 @@ In the scatter function, you will need to evaluate the blend amount texture, con
 
 Render `scenes/02_triangles_textures/blend.json`.
 
-![blend-ref.png](https://canvas.dartmouth.edu/courses/48965/files/8415646/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415646/preview)
 
-# Task 5: Interesting scene (2 pts)
+Interesting scene (2 pts)
+=========================
 
 Now create an interesting scene (or scenes) showcasing all the features you've implemented. Be creative. Find some interesting textures online, or create some new procedural textures by combining your existing functionality. Consider applying textures to various parts of a material, like the blend factor, the roughness, and emission.
 
-## What to submit
+What to submit
+==============
 
 **Please read the following instructions carefully: Include the required files and nothing else. Do not pack the required files into a containing folder, just zip the files directly.**
 

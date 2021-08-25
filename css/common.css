@@ -54,9 +54,11 @@ table {
     font-family: 'Source Code Pro';
 }
 
-.md pre.listing {
+.md pre.listing,
+.md pre.listing.tilde,
+.md pre.listing.backtick {
     background-color: rgb(0, 0, 0, 0.2);
-    /* padding: 0.1em 0.2em; */
+    padding: 0.4em 0.8em;
     border-radius: 0.25em;
     border: none;
 }
@@ -78,8 +80,28 @@ table {
 .hljs-number {
     color: rgb(175, 207, 164);
 }
-.hljs-built_in {
+.hljs-built_in,
+.hljs-literal {
     color: rgb(57, 158, 219);
+}
+.hljs-keyword {
+    /* color: rgb(208, 130, 196); */
+    color: rgb(57, 158, 219);
+}
+.hljs-comment {
+    color: rgb(91, 154, 76);
+}
+.hljs-class .hljs-title {
+    color: rgb(0, 205, 175);
+}
+.hljs-function .hljs-title {
+    color: rgb(220, 220, 164);
+}
+.hljs-function .hljs-params {
+    color: rgb(212, 212, 212);
+}
+.hljs-title {
+    color: rgb(0, 205, 175);
 }
 
 

@@ -14,10 +14,11 @@ document.write(
         <li><a href="../schedule/">Schedule</a></li>
         <li><a id="assignments" href="../assignments/">Assignments</a>
         <ul>
-            <li><a href="../lab01/">Lab1</a></li>
-            <li><a href="../lab02/">Lab2</a></li>
-            <li><a href="../lab03/">Lab3</a></li>
-            <li><a href="../lab04/">Lab4</a></li>
+            <li><a href="../assignment0/">Assignment 0</a></li>
+            <li><a href="../assignment1/">Assignment 1</a></li>
+            <li><a href="../assignment2/">Assignment 2</a></li>
+            <li><a href="../assignment3/">Assignment 3</a></li>
+            <li><a href="../assignment4/">Assignment 4</a></li>
         </ul>
         </li>
     </ul>
@@ -39,6 +40,8 @@ function selectActivePage() {
             }
         }
     }
+
+    $(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});
 }
 
 
@@ -61,8 +64,6 @@ document.write(
 <script src="../js/jquery.twentytwenty.js"></script>
 <link href="../css/offcanvas.css" rel="stylesheet" type="text/css" />
 <link href="../css/twentytwenty.css" rel="stylesheet" type="text/css" />
-<script>
-$(window).load(function(){$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});});
-</script>
-<script src="../js/markdeep.min.js"></script>
-<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>`);
+<script src="../js/markdeep-1.13.min.js"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
+<script>$(window).load(function(){$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});});</script>`);

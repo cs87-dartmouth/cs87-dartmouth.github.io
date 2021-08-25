@@ -19,7 +19,8 @@ In the first few assignments, you will fill in empty methods left in the base co
 
 In this assignment, you will learn the basics of how to setup your programming environment, how to get the Dirt base code, and how to submit your solutions. The deadline for this assignment is **September 18th.** This assignment is not difficult to do, and its only intention is to make sure you have a working development environment.
 
-# Tasks
+Tasks
+=====
 
 By the end of this assignment, you will have
 
@@ -39,7 +40,8 @@ The first few assignments will largely mirror the concepts in Shirley's three mi
 
 You are also welcome to consult additional references when completing projects, but remember to cite them in your writeup. Remember, when asked to implement feature X, we request that you don't go and read the source code of the implementation of X in some other renderer, because you will likely not learn much in the process. The official course textbooks are excluded from this rule. If in doubt, get in touch with the course staff.
 
-# Obtaining the base code
+Obtaining the base code
+=======================
 
 The base code for this class is provided as a _git repository_. git is a version control system that allows you to keep track of changes in your code over time, collaborate with other people, track down bugs and more. git is the most widely used version control system today, and this is a good opportunity to learn it if you haven't already.
 
@@ -49,7 +51,8 @@ git is a versatile tool and allows you to achieve more than just obtaining new c
 
 Before proceeding to the rest of this section, you need to install git. Please see the [first chapter](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) of the git book to find installation instructions for your system.
 
-## Cloning the repository
+Cloning the repository
+----------------------
 
 The base code for this class is available on the [departmental gitlab server](https://gitlab.cs.dartmouth.edu/). If you do not already have an account, you will need to create one using either your @dartmouth.edu or @cs.dartmouth.edu email address. If you have trouble accessing the code, please contact the TA.
 
@@ -67,7 +70,8 @@ On Windows and macOS, [GitHub Desktop](https://desktop.github.com/) is a conveni
 
 An alternative to GitHub Desktop is [Source Tree](http://www.sourcetreeapp.com/).
 
-# Setting up a C++ compiler and building the base code
+Setting up a C++ compiler and building the base code
+====================================================
 
 We recommend you edit the code using [VS Code](https://code.visualstudio.com/), which is a free and powerful code editor that works on Windows, Linux, and macOS. The rest of this guide will assume you're using VS Code.
 
@@ -89,7 +93,8 @@ To compile things on Windows, you will need to install a version of Visual Studi
 
 If you're using linux, you most likely already know what to do - just install a C++ compiler (gcc or clang), and cmake using your package manager.
 
-## Setting up VS Code
+Setting up VS Code
+------------------
 
 Once you have followed the steps above and have installed the build tools for your operating system, you can go ahead and configure VS Code to compile your code.
 
@@ -122,7 +127,8 @@ Congratulations! If everything has gone well, you have just built the basecode f
 
 You can see the output of the build process at the bottom of the screen (in the "output" tab). Things should compile fine; if not, and you think this is a problem with the basecode, contact us immediately or come to office hours.
 
-## Running the executable
+Running the executable
+----------------------
 
 If the previous part has gone well, you have built an executable you can run on your machine.
 
@@ -130,11 +136,13 @@ On the bottom of your screen, there is a "Terminal" tab. Open it, and type in th
 
 ![](https://canvas.dartmouth.edu/courses/48965/files/8415653/preview width=500)
 
-## Documentation
+Documentation
+-------------
 
 Large parts of dirt are documented using [doxygen](http://www.doxygen.nl/), which is an automatic tool for generating HTML documentation from source code. For convenience, we've included a precompiled version of the documentation in the basecode; simply open `documentation/index.html` in a browser.
 
-## Wrapping Up
+Wrapping Up
+-----------
 
 If all has gone well, you are now ready to edit, compile and run your code.
 
@@ -148,7 +156,8 @@ This will open a dialog at the top of the window. Click on Release if you want a
 
 ![](https://canvas.dartmouth.edu/courses/48965/files/8415760/preview)
 
-# A high-level overview of DIRT
+A high-level overview of DIRT
+=============================
 
 The dirt repository consists of the base code files (first table) and several dependency libraries (second table) that we briefly explain below.
 
@@ -170,7 +179,8 @@ Directory                | Description
 `ext/tinyformat`	     | Type-safe C++11 version of printf and sprintf
 `ext/stb_image`	         | For loading and saving images
 
-# Programming Assignment
+Programming Assignment
+======================
 
 For the programming part of this assignment, you will need to familiarize yourself with the basecode that we provide and implement a few tiny changes to make things work.
 
@@ -178,11 +188,13 @@ Go ahead and open up `src/00_dirt_tutorial.cpp`. This is the file you will be e
 
 Don't be overwhelmed by the size of this file - the majority of it is comments and functionality provided by us to test your code.
 
-## Part 1: Vectors
+Part 1: Vectors
+---------------
 
 For the first part of the programming assignment you need to learn how to use vectors and matrices in DIRT. Head over to `void testVectorsAndMatrices()` and read the comments to get started. Everything that you need to change has been marked with a `TODO` comment.
 
-## Part 2: Colors and Images
+Part 2: Colors and Images
+-------------------------
 
 Head on over to `void testColorAndImage()` and read through the instructions. Everything that you need to change has been marked with a _TODO_ comment.
 
@@ -197,7 +209,9 @@ To complete the last part of the function, you should load the image in `scenes/
     <img src="https://canvas.dartmouth.edu/courses/48965/files/8415762/preview" alt="Mine">
 </div>
 
-## What to submit
+
+What to submit
+==============
 
 **Please read the following instructions carefully: Include the required files and nothing else. Do not pack the required files into a containing folder, just zip the files directly.**
 
