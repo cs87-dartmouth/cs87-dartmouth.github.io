@@ -2,7 +2,9 @@
 
 body {
     font-family: 'Source Sans Pro', sans-serif;
-    background:white;
+    background:#2f363f;
+
+    color: rgb(220, 220, 220);
     /* font-weight: 700; */
 }
 
@@ -14,16 +16,18 @@ body {
 .md .shortTOC, .md .mediumTOC, .md .longTOC {
     font-family: inherit;
     background: inherit;
+    color: inherit;
 }
 
 a {
-    color: rgb(0, 105, 62) !important;
+    color: rgb(165, 201, 234) !important;
+    font-weight: 600;
 }
 
 body,
 table {
     font-weight: 500;
-    color: #555;
+    /* color: #555; */
 }
 
 /* em.asterisk {
@@ -42,7 +46,8 @@ table {
 
 /* inline and block code */
 .md code {
-    background-color: rgba(0,0,0,.05);
+    color: rgb(230, 230, 230);
+    background-color: rgb(40, 46, 54);
     /* color: #800; */
     padding: 0.1em 0.2em;
     border-radius: 0.15em;
@@ -50,9 +55,16 @@ table {
     font-family: 'Source Code Pro';
 }
 
+.md pre.listing {
+    background-color: rgb(40, 46, 54);
+    padding: 0.1em 0.2em;
+    border-radius: 0.15em;
+    border: none;
+}
+
 .md pre.listing code {
     background-color: transparent;
-    color: #000;
+    color: rgb(230, 230, 230);
     border: none;
     padding: 0;
     font-weight: 500;
@@ -116,7 +128,7 @@ table {
 
 
 #navbar {
-    background: rgb(0, 105, 62);
+    background: rgb(34, 39, 46);
     position: fixed;
     top: 0;
     left: 0;
@@ -124,25 +136,34 @@ table {
     padding: 0;
     text-align: center;
     color: white;
-    -webkit-box-shadow: 0px 5px 20px rgba(0,0,0,0.25);
-    box-shadow: 0px 5px 20px rgba(0,0,0,0.25); 
+    /* -webkit-box-shadow: 0px 5px 20px rgba(0,0,0,0.25); */
+    /* box-shadow: 0px 5px 20px rgba(0,0,0,0.25);  */
 }
 
 
 .nav-menu li a {
     padding: 1ex;
     color: white !important;
+
+    border-bottom-color: rgba(0,0,0,0);
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
 }
 
 .nav-menu li a.active {
-    /* color: black !important; */
-    /* background: white; */
-    background: rgb(18, 49, 43);
+    background: rgb(41, 47, 55);
+    
+    border-bottom-color: rgb(165, 201, 234);
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
 }
 .nav-menu li a:hover {
-    /* color: rgb(0, 105, 62) !important; */
-    background: #aaa;
-    background:rgb(18, 49, 43);
+    text-decoration: none !important;
+    background: rgb(41, 47, 55);
+    border-bottom-color: rgb(165, 201, 234);
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    color: rgb(165, 201, 234);
 }
 
 .nav-menu,.nav-menu ul,.nav-menu li,.nav-menu a {
@@ -167,10 +188,48 @@ table {
     line-height: 0.75;
     font-size: 85%;
     color: rgb(0, 105, 62);
-    background: rgb(0, 105, 62);
+    /* background: rgb(0, 105, 62); */
+    background: rgb(34, 39, 46);
     min-width: 8em;
-    -webkit-box-shadow: 5px 5px 20px rgba(0,0,0,0.25);
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.25); 
+    /* -webkit-box-shadow: 5px 5px 20px rgba(0,0,0,0.25); */
+    /* box-shadow: 5px 5px 20px rgba(0,0,0,0.25);  */
+}
+
+.nav-menu ul a {
+
+    border-bottom-color: rgb(165, 201, 234);
+    border-bottom-style: solid;
+    border-bottom-width: 0px;
+    border-left-color: rgba(165, 201, 234,0);
+    border-left-style: solid;
+    border-left-width: 4px;
+    border-right-color: rgb(165, 201, 234);
+    border-right-style: solid;
+    border-right-width: 0px;
+    border-top-color: rgb(165, 201, 234);
+    border-top-style: solid;
+    border-top-width: 0px;
+    box-sizing: border-box;
+    color: rgb(165, 201, 234);
+}
+
+
+.nav-menu ul a:hover {
+
+    border-bottom-color: rgb(165, 201, 234);
+    border-bottom-style: solid;
+    border-bottom-width: 0px;
+    border-left-color: rgb(165, 201, 234);
+    border-left-style: solid;
+    border-left-width: 4px;
+    border-right-color: rgb(165, 201, 234);
+    border-right-style: solid;
+    border-right-width: 0px;
+    border-top-color: rgb(165, 201, 234);
+    border-top-style: solid;
+    border-top-width: 0px;
+    box-sizing: border-box;
+    color: rgb(165, 201, 234);
 }
 .nav-menu li:hover > ul {
     left: 0;
