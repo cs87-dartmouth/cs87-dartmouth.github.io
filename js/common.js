@@ -8,7 +8,7 @@ document.write('<link rel="stylesheet" type="text/css" href="../css/common.css?"
 document.write(
 `<nav id="navbar">
     <span class="brand"></span>
-    <span class="course">CS1</span>
+    <span class="course">CS87</span>
     <ul class="nav-menu nav-center">
         <li><a href="../syllabus/">Syllabus</a></li>
         <li><a href="../schedule/">Schedule</a></li>
@@ -65,13 +65,15 @@ if (!markdeepOptions.tocStyle) {
 
 markdeepOptions.onLoad = "selectActivePage()";
 
-document.write( '<!-- Markdeep: -->' +
-                // '<style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style>' +
-                '<script src="../js/markdeep.min.js"></script>' +
-                '<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>\n'
-                );
-
-// document.write( '<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,100italic,300italic,400italic,700" rel="stylesheet" type="text/css">\n' + 
-//                 '<link rel="stylesheet" type="text/css" href="../css/common.css">\n' + 
-//                 '<!-- Markdeep: --><style class="fallback">body{visibility:hidden}</style><script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js?" charset="utf-8"></script>'
-//                 );
+document.write(
+`<!-- Markdeep: -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="../js/jquery.event.move.js"></script>
+<script src="../js/jquery.twentytwenty.js"></script>
+<link href="../css/offcanvas.css" rel="stylesheet" type="text/css" />
+<link href="../css/twentytwenty.css" rel="stylesheet" type="text/css" />
+<script>
+$(window).load(function(){$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5});});
+</script>
+<script src="../js/markdeep.min.js"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>`);

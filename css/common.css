@@ -1,11 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,600;1,700;1,900&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
 body {
-    font-family: sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     background:white;
-    font-weight: 500;
+    /* font-weight: 700; */
 }
 
-.md a {
-    font-family: sans-serif;
+/* reset heading/link fonts to that of body */
+.md a,
+.md div.title, contents, .md .tocHeader,
+.md h1, .md h2, .md h3, .md h4, .md h5, .md h6,
+.md .nonumberh1, .md .nonumberh2, .md .nonumberh3, .md .nonumberh4, .md .nonumberh5, .md .nonumberh6,
+.md .shortTOC, .md .mediumTOC, .md .longTOC {
+    font-family: inherit;
     background: inherit;
 }
 
@@ -26,13 +33,21 @@ table {
 } */
 
 
+.md div.title {
+    margin-top: 20px;
+    font-size: x-large;
+    /* font-family: 'Source Sans Pro', sans-serif; */
+}
+
+
 /* inline and block code */
 .md code {
     background-color: rgba(0,0,0,.05);
     /* color: #800; */
     padding: 0.1em 0.2em;
     border-radius: 0.15em;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: 'Source Code Pro';
 }
 
 .md pre.listing code {
@@ -40,7 +55,8 @@ table {
     color: #000;
     border: none;
     padding: 0;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: 'Source Code Pro';
 }
 
 .calendar {
@@ -91,11 +107,6 @@ table {
 .calendar .out {
     text-align: left;
     /* width: 3em; */
-}
-
-.md div.title {
-    margin-top: 20px;
-    font-size: x-large;
 }
 
 .emph {
