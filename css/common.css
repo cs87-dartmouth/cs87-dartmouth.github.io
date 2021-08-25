@@ -71,6 +71,46 @@ table {
     font-family: 'Source Code Pro';
 }
 
+
+/* tables; use fainter colors than regular markdeep style */
+.md table.table {
+    font-size: 90%;
+    border: none;
+}
+
+.md table.table th {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: rgba(0,0,0,.6);
+}
+.md table.table tr, .md table.table td {
+    /* border-color: #eee; */
+    /* border: none; */
+    border-left:none;
+    border-right:none;
+    border-color: rgba(255,255,255,0.1);
+}
+.md table.table tr:nth-child(even) {
+    /* border-left:none;
+    border-right:none;
+    border-color: #405363; */
+    background-color: inherit;
+}
+.md table.table tr:hover {
+    /* border-left:none;
+    border-right:none;
+    border-color: #405363; */
+    background-color: rgba(255,255,255,0.1);
+}
+
+
+
+/* End standard markdeep stuff */
+
+
+
+/* Custom stuff for calendar and navbar */
+
 .calendar {
     width: 100%;
 }

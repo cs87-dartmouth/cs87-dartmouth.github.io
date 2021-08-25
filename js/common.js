@@ -14,23 +14,12 @@ document.write(
         <li><a href="../schedule/">Schedule</a></li>
         <li><a id="assignments" href="../assignments/">Assignments</a>
         <ul>
-            <li><a href="../sa00/">SA0</a></li>
-            <li><a href="../sa01/">SA1</a></li>
-            <li><a href="../sa02/">SA2</a></li>
-            <li><a href="../sa03/">SA3</a></li>
-            <li><a href="../sa04/">SA4</a></li>
-            <li><a href="../sa05/">SA5</a></li>
-            <li><a href="../sa06/">SA6</a></li>
-            <li><a href="../sa07/">SA7</a></li>
-            <li><a href="../sa08/">SA8</a></li>
-            <li><a href="../sa09/">SA9</a></li>
             <li><a href="../lab01/">Lab1</a></li>
             <li><a href="../lab02/">Lab2</a></li>
             <li><a href="../lab03/">Lab3</a></li>
             <li><a href="../lab04/">Lab4</a></li>
         </ul>
         </li>
-        <li><a href="http://projectpython.net">Text</a></li>
     </ul>
 </nav>
 `);
