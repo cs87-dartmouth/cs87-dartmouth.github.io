@@ -93,35 +93,30 @@ If you're using linux, you most likely already know what to do - just install a 
 
 Once you have followed the steps above and have installed the build tools for your operating system, you can go ahead and configure VS Code to compile your code.
 
-First, launch VS Code and go to the plugins tab:
+First, launch VS Code and go to the extensions tab. Install **C/C++** and **CMake** tools:
 
-![plugins.png](https://canvas.dartmouth.edu/courses/48965/files/8415679/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415679/preview width="90%") ![](https://canvas.dartmouth.edu/courses/48965/files/8415683/preview width="90%") 
 
-Then, install **C++** and **CMake** tools:
-
-![c++-plugin.png](https://canvas.dartmouth.edu/courses/48965/files/8415683/preview)
 
 VS Code will ask you to reload to finish installing the plugins. Do that.
 
 Then, go to File->Open and open the `dirt_basecode` folder:
 
-![open-dialog.png](https://canvas.dartmouth.edu/courses/48965/files/8415677/preview)
+![ ](https://canvas.dartmouth.edu/courses/48965/files/8415677/preview width="60%") 
 
 This will bring all source files into your editor. On the left, you can explore the file system and open the individual source files.
 
 CMake will now ask you to configure your project. Do that:
 
-![configure.png](https://canvas.dartmouth.edu/courses/48965/files/8415678/preview)
+![ ](https://canvas.dartmouth.edu/courses/48965/files/8415678/preview width="75%") 
 
 Depending on your platform, it will ask you to select a "kit" - in other words, it wants to know what compiler you would like to use. Click "Scan for Kits". This brings up a small dialog at the top of your screen:
 
-![kit-selection.png](https://canvas.dartmouth.edu/courses/48965/files/8415681/preview)
+![ ](https://canvas.dartmouth.edu/courses/48965/files/8415681/preview width="75%") 
 
 The contents of this dialog depend on your platform. For macOS, you would want to select Clang; for Linux, you want GCC, and for Windows, you want Visual Studio amd64.
 
-Navigate to your CMake tab (the big triangle on the left) and first configure your project (click on the small triangle) and then build your project (click on the hammer):
-
-![build-dialog.png](https://canvas.dartmouth.edu/courses/48965/files/8415680/preview)
+![ ](https://canvas.dartmouth.edu/courses/48965/files/8415680/preview width="50%") Navigate to your CMake tab (the big triangle on the left) and first configure your project (click on the small triangle) and then build your project (click on the hammer):
 
 Congratulations! If everything has gone well, you have just built the basecode for this assignment.
 
@@ -133,7 +128,7 @@ If the previous part has gone well, you have built an executable you can run on 
 
 On the bottom of your screen, there is a "Terminal" tab. Open it, and type in the path to `build/00_dirt_tutorial`. This will run the program you just compiled. If all goes well, you should see output like this:
 
-![run-output.png](https://canvas.dartmouth.edu/courses/48965/files/8415653/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415653/preview width=500)
 
 ## Documentation
 
@@ -147,11 +142,11 @@ You can start editing now – whenever you're satisfied with your changes, head 
 
 You can build your code in _Debug_ mode or _Release_ mode. Debug mode adds more debugging information to your code (for when you want to troubleshoot problems), but it is much, much slower than Release mode (with a ray tracer, it is not uncommon for Debug to be 10 to 100X slower than Release). Your code will build in debug mode by default. You can switch to Release mode by clicking Debug in the bottom of the window:
 
-![build-mode.png](https://canvas.dartmouth.edu/courses/48965/files/8415684/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415684/preview)
 
 This will open a dialog at the top of the window. Click on Release if you want a fast program:
 
-![mode-selection.png](https://canvas.dartmouth.edu/courses/48965/files/8415760/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415760/preview)
 
 # A high-level overview of DIRT
 
@@ -193,7 +188,7 @@ Head on over to `void testColorAndImage()` and read through the instructions. Ev
 
 You will generate and write a `gradient.png` image, that should look something like this:
 
-![gradient.png](https://canvas.dartmouth.edu/courses/48965/files/8415759/preview)
+![](https://canvas.dartmouth.edu/courses/48965/files/8415759/preview)
 
 To complete the last part of the function, you should load the image in `scenes/00_preliminaries/cornellbox.png` that comes with the base code, convert it to grayscale (as described in the code) and save it under `scenes/00_preliminaries/__cornell_grayscale.png`. The input image is shown below on the left; the expected output is shown on the right.
 

@@ -47,8 +47,7 @@ table {
 /* inline and block code */
 .md code {
     color: rgb(230, 230, 230);
-    background-color: rgb(40, 46, 54);
-    /* color: #800; */
+    background-color: rgb(0, 0, 0, 0.2);
     padding: 0.1em 0.2em;
     border-radius: 0.15em;
     font-weight: 500;
@@ -56,19 +55,31 @@ table {
 }
 
 .md pre.listing {
-    background-color: rgb(40, 46, 54);
-    padding: 0.1em 0.2em;
-    border-radius: 0.15em;
+    background-color: rgb(0, 0, 0, 0.2);
+    /* padding: 0.1em 0.2em; */
+    border-radius: 0.25em;
     border: none;
 }
 
 .md pre.listing code {
     background-color: transparent;
     color: rgb(230, 230, 230);
-    border: none;
     padding: 0;
     font-weight: 500;
-    font-family: 'Source Code Pro';
+}
+
+
+.hljs-string {
+    color: rgb(216, 142, 116);
+}
+.hljs-attr {
+    color: rgb(136, 222, 255);
+}
+.hljs-number {
+    color: rgb(175, 207, 164);
+}
+.hljs-built_in {
+    color: rgb(57, 158, 219);
 }
 
 
@@ -80,29 +91,20 @@ table {
 
 .md table.table th {
     border: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: rgba(0,0,0,.6);
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgba(0,0,0,.9);
 }
 .md table.table tr, .md table.table td {
-    /* border-color: #eee; */
-    /* border: none; */
     border-left:none;
     border-right:none;
     border-color: rgba(255,255,255,0.1);
 }
 .md table.table tr:nth-child(even) {
-    /* border-left:none;
-    border-right:none;
-    border-color: #405363; */
     background-color: inherit;
 }
 .md table.table tr:hover {
-    /* border-left:none;
-    border-right:none;
-    border-color: #405363; */
     background-color: rgba(255,255,255,0.1);
 }
-
 
 
 /* End standard markdeep stuff */
