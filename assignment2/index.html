@@ -5,11 +5,9 @@
 
 We will primarily be referring to chapters of Ray Tracing - The Next Week in this assignment. Make sure to grab a copy and read through it.
 
-!!!Note
-    Make sure to do a `git pull` to retrieve any updates to the base code before you begin!
+Make sure to do a `git pull` to retrieve any updates to the base code before you begin!
 
-!!!Note
-    Chapter 2 of the book discusses how to build a bounding volume hierarchy so you can intersect rays quickly against a large collection of triangles or other geometric primitives. While we already provide this for you in the Dirt basecode, you should still read through this chapter and compare our approach in `bbh.h|cpp` to that in the book. Dirt's implementation is based largely on the book, but it does so using C++11 concepts compared to the book's old-school C approach.
+Chapter 2 of the book discusses how to build a bounding volume hierarchy so you can intersect rays quickly against a large collection of triangles or other geometric primitives. While we already provide this for you in the Dirt basecode, you should still read through this chapter and compare our approach in `bbh.h|cpp` to that in the book. Dirt's implementation is based largely on the book, but it does so using C++11 concepts compared to the book's old-school C approach.
 
 Ray-Triangle Intersection (2 pts)
 ===================================
@@ -22,7 +20,9 @@ There are many established ray-triangle intersection algorithms out there, and y
 
 Once you've finished writing up the intersection code, you can go ahead and run the `build/02_test_tri_intersection` application from the terminal, which will test your intersection code.
 
-![ ](https://canvas.dartmouth.edu/courses/48965/files/8415691/preview width="50%") Once your tests pass, you can test it on a slightly more complex example: Run the `build/dirt` application from the terminal on the `scenes/02_triangles_textures/simple-geometry.json` scene. This renders a scene with a few simple triangle meshes, which should look like this:
+Once your tests pass, you can test it on a slightly more complex example: Run the `build/dirt` application from the terminal on the `scenes/02_triangles_textures/simple-geometry.json` scene. This renders a scene with a few simple triangle meshes, which should look like this:
+
+![](https://canvas.dartmouth.edu/courses/48965/files/8415691/preview) 
 
 Solid textures (3.5 pts)
 ========================
@@ -56,7 +56,9 @@ albedo = parseTexture(j.at("albedo"));
 
 You'll also want to support texturing the `Metal::roughness` parameter. This is currently a float, but you can still turn it into a Texture, and when calling its `value(...)` function, just convert to a scalar using the `luminance()` function in `vec.h`. An alternative approach would have been to treat color and grayscale textures separately, but we'll stick with the simpler approach.
 
-![ ](https://canvas.dartmouth.edu/courses/48965/files/8415692/preview width="50%") Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/constant-cornell-box.json`.  This scene looks similar to the Cornell box from the previous assignment, except all albedos are now specified with a constant texture.
+Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/constant-cornell-box.json`.  This scene looks similar to the Cornell box from the previous assignment, except all albedos are now specified with a constant texture.
+
+![](https://canvas.dartmouth.edu/courses/48965/files/8415692/preview) 
 
 ### Backwards scene compatibility
 
@@ -74,7 +76,7 @@ in the scene file, but now we have to instead write the more clunky:
 }
 ~~~
 
-Let's add backwards compatibility so that the scene can specify colors directly too. To distinguish between these two forms, you can inspect the `const json &j` by calling `j.is_object()`, `j.is_array()` or `j.is_number()`.  In `parseTexture(...)` you should check whether `j` is an array or number, and create a `ConstantTexture` directly in these cases (you may also need to modify the `ConstantTexture` constructor to handle this). If `j` is an object, you can use your code from 2.1.2 to construct the appropriate texture.
+Let's add backwards compatibility so that the scene can specify colors directly too. To distinguish between these two forms, you can inspect the `const json &j` by calling `j.is_object()`, `j.is_array()` or `j.is_number()`.  In `parseTexture(...)` you should check whether `j` is an array or number, and create a `ConstantTexture` directly in these cases (you may also need to modify the `ConstantTexture` constructor to handle this). If `j` is an object, you can use your code from [2.1.2](#retrofittingtheparser) to construct the appropriate texture.
 
 Once you have this implemented, you should be able to render all the scenes from the previous assignment. Give it a try.
 

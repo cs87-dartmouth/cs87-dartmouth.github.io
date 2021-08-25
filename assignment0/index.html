@@ -100,28 +100,28 @@ Once you have followed the steps above and have installed the build tools for yo
 
 First, launch VS Code and go to the extensions tab. Install **C/C++** and **CMake** tools:
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415679/preview width="90%") ![](https://canvas.dartmouth.edu/courses/48965/files/8415683/preview width="90%") 
+![](images/plugins.png width="90%") ![](images/c++-plugin.png width="90%") 
 
 
 VS Code will ask you to reload to finish installing the plugins. Do that.
 
 Then, go to File->Open and open the `dirt_basecode` folder:
 
-![ ](https://canvas.dartmouth.edu/courses/48965/files/8415677/preview width="60%") 
+![](images/open-dialog.png width="60%") 
 
 This will bring all source files into your editor. On the left, you can explore the file system and open the individual source files.
 
 CMake will now ask you to configure your project. Do that:
 
-![ ](https://canvas.dartmouth.edu/courses/48965/files/8415678/preview width="75%") 
+![ ](images/configure.png width="75%") 
 
 Depending on your platform, it will ask you to select a "kit" - in other words, it wants to know what compiler you would like to use. Click "Scan for Kits". This brings up a small dialog at the top of your screen:
 
-![ ](https://canvas.dartmouth.edu/courses/48965/files/8415681/preview width="75%") 
+![ ](images.kit-selection.png width="75%") 
 
 The contents of this dialog depend on your platform. For macOS, you would want to select Clang; for Linux, you want GCC, and for Windows, you want Visual Studio amd64.
 
-![ ](https://canvas.dartmouth.edu/courses/48965/files/8415680/preview width="50%") Navigate to your CMake tab (the big triangle on the left) and first configure your project (click on the small triangle) and then build your project (click on the hammer):
+![ ](images/build-dialog.png width="50%") Navigate to your CMake tab (the big triangle on the left) and first configure your project (click on the small triangle) and then build your project (click on the hammer):
 
 Congratulations! If everything has gone well, you have just built the basecode for this assignment.
 
@@ -134,7 +134,7 @@ If the previous part has gone well, you have built an executable you can run on 
 
 On the bottom of your screen, there is a "Terminal" tab. Open it, and type in the path to `build/00_dirt_tutorial`. This will run the program you just compiled. If all goes well, you should see output like this:
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415653/preview width=500)
+![](images/run-output.png width=500)
 
 Documentation
 -------------
@@ -150,11 +150,11 @@ You can start editing now – whenever you're satisfied with your changes, head 
 
 You can build your code in _Debug_ mode or _Release_ mode. Debug mode adds more debugging information to your code (for when you want to troubleshoot problems), but it is much, much slower than Release mode (with a ray tracer, it is not uncommon for Debug to be 10 to 100X slower than Release). Your code will build in debug mode by default. You can switch to Release mode by clicking Debug in the bottom of the window:
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415684/preview)
+![](images/build-mode.png)
 
 This will open a dialog at the top of the window. Click on Release if you want a fast program:
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415760/preview)
+![](images/mode-selection.png)
 
 A high-level overview of DIRT
 =============================
@@ -200,13 +200,13 @@ Head on over to `void testColorAndImage()` and read through the instructions. Ev
 
 You will generate and write a `gradient.png` image, that should look something like this:
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415759/preview)
+![](images/gradient.png)
 
 To complete the last part of the function, you should load the image in `scenes/00_preliminaries/cornellbox.png` that comes with the base code, convert it to grayscale (as described in the code) and save it under `scenes/00_preliminaries/__cornell_grayscale.png`. The input image is shown below on the left; the expected output is shown on the right.
 
 <div class="twentytwenty-container">
-    <img src="https://canvas.dartmouth.edu/courses/48965/files/8415761/preview" alt="Reference">
-    <img src="https://canvas.dartmouth.edu/courses/48965/files/8415762/preview" alt="Mine">
+    <img src="images/cornellbox.png" alt="Input image">
+    <img src="images/cornell_grayscale.png" alt="Grayscale">
 </div>
 
 
