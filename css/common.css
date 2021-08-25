@@ -259,8 +259,9 @@ table {
     /* box-shadow: 5px 5px 20px rgba(0,0,0,0.25);  */
 }
 
-.nav-menu ul a {
-
+.nav-menu ul a,
+.nav-menu ul li a.active
+{
     border-bottom-color: rgb(165, 201, 234);
     border-bottom-style: solid;
     border-bottom-width: 0px;

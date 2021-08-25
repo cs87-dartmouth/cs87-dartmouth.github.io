@@ -28,7 +28,7 @@ document.write(
 function selectActivePage() {
     const currentLocation = location.href;
     // special handling for nested short assignment and lab pages
-    if (currentLocation.match(/(sa\d{2})|(lab\d{2})/)) {
+    if (currentLocation.match(/(assignment\d{1})/)) {
         document.getElementById("assignments").className = "active"
     }
     else {
