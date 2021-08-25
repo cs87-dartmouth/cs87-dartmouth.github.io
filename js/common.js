@@ -56,6 +56,7 @@ if (!markdeepOptions.tocStyle) {
 }
 
 markdeepOptions.onLoad = "selectActivePage()";
+markdeepOptions.inlineCodeLang = 'C++';
 
 document.write(
 `<!-- Markdeep: -->
