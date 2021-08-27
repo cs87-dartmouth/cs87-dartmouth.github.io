@@ -20,6 +20,7 @@ document.write(
             <li><a href="../assignment3/">Assignment 3</a></li>
             <li><a href="../assignment4/">Assignment 4</a></li>
             <li><a href="../assignment5/">Assignment 5</a></li>
+            <li><a href="../assignment5/">Final project</a></li>
         </ul>
         </li>
     </ul>
