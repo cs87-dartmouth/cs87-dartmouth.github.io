@@ -28,20 +28,19 @@ To compile this new program, type your source code in a new `.cpp` file (we cal
 
 ![](images/pointgen-cmake.png)
 
-You can then run this program from the terminal as before. Hint: You can type `build/03_point_gen > points.csv` in the terminal to directly save the output of the program into a CSV file.
+You can then run this program from the terminal as before.
 
-If you implemented everything correctly, your program should generate a point distribution like this:
+!!! Tip: Hint
+    You can type `build/03_point_gen > points.csv` in the terminal to directly save the output of the program into a CSV file.
 
-![](images/points-in-sphere.png width="60%")
+![ ](images/points-in-sphere.png width="40%") If you implemented everything correctly, your program should generate a point distribution like the one on the right.
 
 This is only for inspiration: You don't have to do it this way, and are free to generate your points in any way you want and visualize them in any software that is easiest for you. Your output will differ depending on which plotting software you use, how many points you output and so forth, but it should look like uniform points within a sphere.
 
 Uniform points on the sphere
 ----------------------------
 
-Add a new function called `randomOnUnitSphere()` that generates points _on_ the sphere instead of its interior. You can begin by simply calling `randomInUnitSphere()` and normalizing the result: That will project all points to the surface of the sphere, and give you a result like this:
-
-![](images/points-on-sphere.png width="60%")
+![ ](images/points-on-sphere.png width="40%") Add a new function called `randomOnUnitSphere()` that generates points _on_ the sphere instead of its interior. You can begin by simply calling `randomInUnitSphere()` and normalizing the result: That will project all points to the surface of the sphere, and give you a result like this:
 
 While this gives you the distribution you want, it is inefficient: Since `randomInUnitSphere()` uses rejection sampling, it could loop many times before giving you a sample. Instead, write a function that directly produces points on the sphere. [WolframAlpha](http://mathworld.wolfram.com/SpherePointPicking.html) shows several ways to do this. The easiest is the trigonometric way, for which we give pseudocode below:
 
@@ -60,32 +59,24 @@ After you implement the function without rejection sampling, rerun it and visual
 Uniform points on the hemisphere
 --------------------------------
 
-Add a new function called `randomOnUnitHemisphere()` that generates points on the hemisphere (i.e. the parts of the sphere with positive z coordinated) instead of the full sphere. You can achieve this by modifying the way `cosTheta` is computed in the previous code for sampling the sphere to only produce positive z values, i.e. you can change it to `cosTheta = randf()`.
+![ ](images/points-on-hemisphere.png width="40%") Add a new function called `randomOnUnitHemisphere()` that generates points on the hemisphere (i.e. the parts of the sphere with positive z coordinated) instead of the full sphere. You can achieve this by modifying the way `cosTheta` is computed in the previous code for sampling the sphere to only produce positive z values, i.e. you can change it to `cosTheta = randf()`.
 
-This should give you a distribution like this:
+Cosine-weighted points on the hemisphere
+----------------------------------------
 
-![](images/points-on-hemisphere.png width="60%")
+![ ](images/points-on-cosine-hemisphere.png width="40%") Add a new function called `randomCosineHemisphere()`. This function should generate points so that the PDF of the points is proportional to the cosine of the angle between the point and the z-axis. You can again achieve this by modifying the way `cosTheta` is computed in the previous functions: `cosTheta = sqrt(randf())`. This should give you a distribution like on the right.
 
-### Cosine-weighted points on the Hemisphere
-
-Add a new function called `randomCosineHemisphere()`. This function should generate points so that the PDF of the points is proportional to the cosine of the angle between the point and the z-axis. You can again achieve this by modifying the way `cosTheta` is computed in the previous functions: `cosTheta = sqrt(randf())`.
-
-This should give you a distribution like this:
-
-![](images/points-on-cosine-hemisphere.png width="60%")
 
 Cosine-power-weighted points on the hemisphere
 ----------------------------------------------
 
 Add a new function called `randomCosinePowerHemisphere(float exponent)`. This function should generate points so that the PDF of the points is proportional to the cosine of the angle between the point and the z-axis, _raised to the power of_ some exponent. For an exponent of 1, we should get standard cosine-weighted hemisphere sampling; for an exponent of 0, we should get the uniform hemisphere, and the distribution should get more and more clustered around (0, 0, 1) for higher and higher exponents.
 
-You can again achieve this by modifying the way `cosTheta` is computed in the above code. Change it to `cosTheta = powf(randf(), 1/(exponent + 1))`.
+![ ](images/points-on-cosine-power-hemisphere.png width="40%") You can again achieve this by modifying the way `cosTheta` is computed in the above code. Change it to `cosTheta = powf(randf(), 1/(exponent + 1))`.
 
 Try to insert `exponent=0` and `exponent=1` into the above equation. Does it do what we want it to do?
 
-Write out a point set for `exponent=20`. This should give you a distribution like this:
-
-![](images/points-on-cosine-power-hemisphere.png width="60%")
+Write out a point set for `exponent=20`. This should give you a distribution like shown on the right.
 
 Note how clustered the points are around the z-axis.
 
