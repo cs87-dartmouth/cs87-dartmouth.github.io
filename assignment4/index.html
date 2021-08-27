@@ -202,8 +202,6 @@ Integral of PDF (should be close to 1): 1.00003
 
 Second, the code will call `sample()` many times and build a histogram of the sampled directions. This histogram should exactly match the PDF. The tester will output two images, `lambertian-pdf.png` (the PDF) and `lambertian-sampled.png` (the histogram). These should match with each other and look similar to this:
 
-![](images/lambertian-pdf.png width="95%") ![](images/lambertian-sampled.png width="95%")
-
 <div class="twentytwenty-container">
     <img src="images/lambertian-pdf.png" alt="Analytic distribution">
     <img src="images/lambertian-sampled.png" alt="Observed distribution">
@@ -224,7 +222,10 @@ To fix this, read chapter 6 of the text book and implement an _ONB_ (Ortho-Norma
 
 You can test your code using the `"rotated-lambertian"` test in the sample test tool. You should get images like these:
 
-![](images/rotated-lambertian-pdf.png width="95%") ![](images/rotated-lambertian-sampled.png width="95%")
+<div class="twentytwenty-container">
+    <img src="images/rotated-lambertian-pdf.png" alt="Analytic distribution">
+    <img src="images/rotated-lambertian-sampled.png" alt="Observed distribution">
+</div>
 
 
 Phong material
@@ -250,8 +251,15 @@ Sampling this material follows in two steps: First, you need to generate directi
 
 You can test your code using the `"phong"` and `"rotated-phong"` tests in the sample test tool. You should get images like these:
 
-![](images/phong-pdf.png width="95%") ![](images/phong-sampled.png width="95%")
-![](images/rotated-phong-pdf.png width="95%") ![](images/rotated-phong-sampled.png width="95%")
+<div class="twentytwenty-container">
+    <img src="images/phong-pdf.png" alt="Analytic distribution">
+    <img src="images/phong-sampled.png" alt="Observed distribution">
+</div>
+
+<div class="twentytwenty-container">
+    <img src="images/rotated-phong-pdf.png" alt="Analytic distribution">
+    <img src="images/rotated-phong-sampled.png" alt="Observed distribution">
+</div>
 
 Grad students only: Blinn-Phong
 -------------------------------
@@ -283,9 +291,15 @@ The `eval()` method is simply the PDF method times the albedo.
 
 You can test your implementation using the sample tester tool. You should get images like these:
 
+<div class="twentytwenty-container">
+    <img src="images/blinnphong-pdf.png" alt="Analytic distribution">
+    <img src="images/blinnphong-sampled.png" alt="Observed distribution">
+</div>
 
-![](images/blinnphong-pdf.png width="95%") ![](images/blinnphong-sampled.png width="95%")
-![](images/rotated-blinnphong-pdf.png width="95%") ![](images/rotated-blinnphong-sampled.png width="95%")
+<div class="twentytwenty-container">
+    <img src="images/rotated-blinnphong-pdf.png" alt="Analytic distribution">
+    <img src="images/rotated-blinnphong-sampled.png" alt="Observed distribution">
+</div>
 
 !!! Tip: Hint
     Not all Blinn-Phong directions make sense. If the incoming or scattered directions are below the hemisphere, the PDF should be zero.
