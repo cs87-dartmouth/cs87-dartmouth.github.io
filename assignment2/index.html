@@ -22,7 +22,7 @@ Once you've finished writing up the intersection code, you can go ahead and run 
 
 Once your tests pass, you can test it on a slightly more complex example: Run the `build/dirt` application from the terminal on the `scenes/02_triangles_textures/simple-geometry.json` scene. This renders a scene with a few simple triangle meshes, which should look like this:
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415691/preview) 
+![](images/simple-geometry-50spp.png) 
 
 Solid textures (3.5 pts)
 ========================
@@ -58,7 +58,7 @@ You'll also want to support texturing the `Metal::roughness` parameter. This is 
 
 Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/constant-cornell-box.json`.  This scene looks similar to the Cornell box from the previous assignment, except all albedos are now specified with a constant texture.
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415692/preview) 
+![](images/constant-cornell-box.png) 
 
 ### Backwards scene compatibility
 
@@ -87,7 +87,7 @@ You now have the framework to easily add other types of textures, and these text
 
 Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/checker.json`. 
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415693/preview)
+![](images/checker-ref.png)
 
 Perlin noise (1.5 pts)
 ----------------------
@@ -96,7 +96,7 @@ Read Chapter 4 of the book. Implement the `Perlin` class. Also implement the `no
 
 Render `scenes/02_triangles_textures/marble.json`.
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415694/preview)
+![](images/marble-128spp.png)
 
 Image texture mapping (2.5 pts)
 ===============================
@@ -120,17 +120,17 @@ Extend your `Sphere::intersect` function to output the UV coordinates as describ
 
 You should now be able to render `scenes/02_triangles_textures/earth.json`
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415695/preview)
+![](images/earth-ref.png)
 
 Now, extend your `Quad::intersect` function to output UV coordinates. Render `scenes/02_triangles_textures/textured-box.json`. 
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415696/preview)
+![](images/textured-box-ref.png)
 
 Finally, extend `Triangle::intersect` to output UV coordinates. You will need to extend `singleTriangleIntersect` to take three `Vec2f` pointers (the uv coordinates for each vertex), in addition to the positions and normals. As with the normals, if the mesh doesn't provide per-vertex UV coorinates, we'll need to fall back to some reasonable default. In this case, you should just store the barycentric coordinates in place of interpolated UV coordinates.
 
 Render `scenes/02/triangles_textures/teapot.json` (a scene with a mesh that has texture coordinates and a texture applied).
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415697/preview)
+![](images/teapot-ref.png)
 
 Blend material (1 pts)
 ======================
@@ -141,7 +141,7 @@ In the scatter function, you will need to evaluate the blend amount texture, con
 
 Render `scenes/02_triangles_textures/blend.json`.
 
-![](https://canvas.dartmouth.edu/courses/48965/files/8415646/preview)
+![](images/blend-ref.png)
 
 Interesting scene (2 pts)
 =========================
