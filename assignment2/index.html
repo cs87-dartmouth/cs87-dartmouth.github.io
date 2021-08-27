@@ -1,168 +1,111 @@
 <meta charset="utf-8"><!-- -*- markdown -*- -->
 <style class="fallback">body{visibility:hidden}</style>
 
-**Assignment 2: Triangles & Textures**
+**Assignment 2: Ray tracing faster**
 
-We will primarily be referring to chapters of Ray Tracing - The Next Week in this assignment. Make sure to grab a copy and read through it.
+In this assignment, you will learn how to accelerate ray tracing with an acceleration data structure. We will primarily be referring to chapters of [Ray Tracing - The Next Week](https://raytracing.github.io/books/RayTracingTheNextWeek.html) in this assignment. Make sure to read through it.
 
-Make sure to do a `git pull` to retrieve any updates to the base code before you begin!
+In the previous assignment, each time you traced a ray the code would perform an intersection test against every single primitive in your scene. This is a reasonable solution for scenes with a few primitives, but it quickly becomes impractical in scenes that contain meshes with thousands to billions of triangles. This is because with naive ray tracing the cost of tracing a ray grows linearly with the number of primitives. Acceleration structures allow us to keep this cost sub-linear, providing tremendous speed improvements for typical scenes.
 
-Chapter 2 of the book discusses how to build a bounding volume hierarchy so you can intersect rays quickly against a large collection of triangles or other geometric primitives. While we already provide this for you in the Dirt basecode, you should still read through this chapter and compare our approach in `bbh.h|cpp` to that in the book. Dirt's implementation is based largely on the book, but it does so using C++11 concepts compared to the book's old-school C approach.
+In this assignment you will implement an acceleration structure called a _bounding volume hierarchy_ (BVH), specifically a variant that uses axis-aligned bounding boxes and hence called a _bounding box hierarchy_ (BBH). The base code for this assignment is an addition to the base code from the previous assignment. You can get the new code by doing a `git pull` in your `dirt_basecode` working directory.
 
-Ray-Triangle Intersection (2 pts)
-===================================
+!!!Warning:
+    Ray tracing is a popular programming exercise, and there are countless implementations of ray tracing and acceleration structures available online. You are allowed to use the book and other online material to help you learn and understand the concepts, but once you have a grasp on it, you must put other sources of code away and write your own code.
 
-Triangles are the default modeling primitives in graphics and hence essential for rendering a variety of scenes. The Dirt basecode already provides the ability to load OBJ triangle meshes with potentially thousands or millions of triangles, so you can find nice models online and load them in your renderer. Currently, however, Dirt doesn't know how to intersect a ray with a single triangle. In this task, you will implement a ray-triangle intersection routine. 
+Ray-triangle intersection (2 pts)
+=================================
 
-Open up the `src/mesh.cpp` file and take a look at `singleTriangleIntersect`. This method is passed three vertex positions and (optionally) three vertex normals and should test the intersection of the ray against the triangle.
+Triangles are the default modeling primitives in graphics and hence essential for rendering a variety of scenes. The Dirt basecode already provides the ability to load OBJ triangle meshes with potentially thousands or millions of triangles, so you can find nice models online and load them in your renderer. Currently, however, Dirt doesn't know how to intersect a ray with a single triangle. In this task, you will implement a ray-triangle intersection routine.
 
-There are many established ray-triangle intersection algorithms out there, and you are free to pick one you like. You can use one of the methods we discussed in lecture, or you can check the PBRT text book for inspiration (The Shirley mini-books don't cover this). Personally I recommend the Möller-Trumbore test, which is simple and widely used. A Google search should bring up a lot of resources for this algorithm.
+Open up the `src/triangle.cpp` file and take a look at `single_triangle_intersect`. This method is passed three vertex positions and (optionally) three vertex normals and should test the intersection of the ray against the triangle.
+
+There are many established ray-triangle intersection algorithms out there, and you are free to pick one you like. You can check the [PBRT book](https://www.pbr-book.org/3ed-2018/Shapes/Triangle_Meshes#TriangleIntersection) for inspiration (the Shirley mini-books don't cover this). Personally I recommend the Möller-Trumbore test, which is simple and widely used. A Google search should bring up a lot of resources for this algorithm.
 
 Once you've finished writing up the intersection code, you can go ahead and run the `build/02_test_tri_intersection` application from the terminal, which will test your intersection code.
 
-Once your tests pass, you can test it on a slightly more complex example: Run the `build/dirt` application from the terminal on the `scenes/02_triangles_textures/simple-geometry.json` scene. This renders a scene with a few simple triangle meshes, which should look like this:
+Once your tests pass, you can test it on a slightly more complex example: Run the `build/dirt` application from the terminal on the `02_raytrace_faster/simple/simple-geometry-no-bvh.JSON` scene. This renders a scene with a few simple triangle meshes, which should look like this:
 
-![](images/simple-geometry-50spp.png) 
+![](images/simple-geometry-50spp.png)
 
-Solid textures (3.5 pts)
-========================
+This render takes quite a while! It's about time that we fix this using a BBH.
 
-Constant textures (1 pts)
--------------------------
+If this scene doesn't render correctly, then the long render times can become a problem when you're trying to debug. It might help you to reduce the `"image_samples"` and the image `"resolution"` fields in the JSON scene file to render smaller and noisier images more quickly while you're debugging.
 
-### The texture classes
+Ray-AABB intersection
+=====================
 
-Read Ray Tracing - The Next Week: Chapter 3, and create a `Texture` base class following this chapter (perhaps in a new texture.h file within your include/dirt directory. Remember to add this file to the list of headers or source files in CMakeLists.txt). Note that while the book uses lowercase and `snake_case`, our basecode uses capitalized class names and camelBack function names. Try to stick with our convention for consistency. Instead of accepting `u`, `v`, and `p` parameters, we suggest you have your `Texture::value` function take a `const HitInfo &` as the parameter (you can then retrieve `u`, `v`, and `p` from within this `HitInfo`).
+[Chapter 3](https://raytracing.github.io/books/RayTracingTheNextWeek.html#boundingvolumehierarchies) of the book discusses how to build a bounding volume hierarchy so you can intersect rays quickly against a large collection of triangles or other geometric primitives.
 
-Create a derived `class ConstantTexture : public Texture` which has a member variable `Color3f color;` and whose `value(...)` function just returns it. Make a constructor that takes a `const json &j` and tries to assign the parameter named "color" to your color member variable by using `j.value("color", color);`.
+The first step in this approach is to choose what kind of bounding volume to use. We will stick with axis-aligned bounding boxes (or AABBs). Go read [Sections 3.3](https://raytracing.github.io/books/RayTracingTheNextWeek.html#boundingvolumehierarchies/axis-alignedboundingboxes(aabbs))–[3.5](https://raytracing.github.io/books/RayTracingTheNextWeek.html#boundingvolumehierarchies/anoptimizedaabbhitmethod) to understand the idea.
 
-### Retrofitting the parser
+We already provide you an implementation of an axis-aligned bounding box class in `&lt;dirt/box.h&gt;`. Our implementation is similar to what is described in the book, but make sure to read through and understand also how our code works.
 
-To make this work with the rest of Dirt, we need to refactor our code a bit so that `Materials` use `Textures` instead of `Color3f`s, and so that it plays nice with our JSON parser. We will structure this based on how we already handle Materials in the code and json scene files.
-
-Take a look at `material.h`. Each derived class has a constructor that accepts a `const json &`.  In `parser.cpp,` the function `parseMaterial` takes a json object, reads the `type` to determine which material should be created, and calls the corresponding constructor with the json object. You should take a similar approach for handling Textures. You can copy over `parseMaterial`, and create a `Texture` version of it; right now you only have one texture type, so return a `ConstantTexture` if the type is `"constant"`. If the type doesn't match any known texture type, you should return a default texture. You'll need to add a static `defaultTexture()` function to your Texture base class, and have this return a ConstantTexture with a color of your choice (look at how `defaultMaterial()` is implemented in `material.h/material.cpp` for inspiration). The default texture should only be used as a fallback if the scene refers to a texture type that doesn't exist, so make this default color something you'll notice during debugging (like a bright purple). An alternative would be to have the parser throw an exception if the scene refers to an undefined texture name, as `parseMaterial` currently does.
-
-Now, change all the `Color3f` members of your `Materials` to `Textures`, e.g. `Color3f albedo;` in `Lambertian` becomes `shared_ptr&lt;const Texture&gt; albedo.` You'll also need to change the corresponding constructors in `material.cpp` to call `parseTexture`, instead of reading a color directly from the passed json object, e.g. this:
-    
-~~~ C++
-albedo = j.value("albedo", albedo);
-~~~
-
-becomes:
-
-~~~ C++
-albedo = parseTexture(j.at("albedo"));
-~~~
-
-You'll also want to support texturing the `Metal::roughness` parameter. This is currently a float, but you can still turn it into a Texture, and when calling its `value(...)` function, just convert to a scalar using the `luminance()` function in `vec.h`. An alternative approach would have been to treat color and grayscale textures separately, but we'll stick with the simpler approach.
-
-Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/constant-cornell-box.json`.  This scene looks similar to the Cornell box from the previous assignment, except all albedos are now specified with a constant texture.
-
-![](images/constant-cornell-box.png) 
-
-### Backwards scene compatibility
-
-One nuisance with our current solution is that we would have to re-write all our previous scene files (that directly specified a color) to instead use a "constant" texture. Previously we could have simply written:  
-
-~~~ JSON
-"albedo": [0.8, 1.0, 0.3],
-~~~
-in the scene file, but now we have to instead write the more clunky:  
-~~~ JSON
-"albedo":
-{
-    "type": "constant",
-    "color": [0.8, 1.0, 0.3]
-}
-~~~
-
-Let's add backwards compatibility so that the scene can specify colors directly too. To distinguish between these two forms, you can inspect the `const json &j` by calling `j.is_object()`, `j.is_array()` or `j.is_number()`.  In `parseTexture(...)` you should check whether `j` is an array or number, and create a `ConstantTexture` directly in these cases (you may also need to modify the `ConstantTexture` constructor to handle this). If `j` is an object, you can use your code from [2.1.2](#retrofittingtheparser) to construct the appropriate texture.
-
-Once you have this implemented, you should be able to render all the scenes from the previous assignment. Give it a try.
-
-Checkerboard (1 pts)
---------------------
-
-You now have the framework to easily add other types of textures, and these textures can be used any place you previously used a fixed Color3f! Add a CheckerTexture class following the description in Chapter 3, but adapted to the Dirt framework. You should use two `shared_ptr&lt;const Texture&gt;`s instead of the raw Texture pointers used in the book. Your constructor should look for properties named "odd" and "even" and use the `parseTexture` function you've already defined. You'll also need to extend your `parseTexture` function to handle this new type of texture.
-
-Once you have this implemented, you should be able to render the scene `scenes/02_triangles_textures/checker.json`. 
-
-![](images/checker-ref.png)
-
-Perlin noise (1.5 pts)
-----------------------
-
-Read Chapter 4 of the book. Implement the `Perlin` class. Also implement the `noise_texture` class from the book, but call this `MarbleTexture` instead. Allow the json scene file to specify the `scale` member variable of your `MarbleTexture`, and instead of always interpolating between black and white as in the book, allow the user to specify these two colors in the json scene file just like we did with "odd" and "even" for the checkerboard. Look for the named properties "veins" and "base" in the json object for this purpose.
-
-Render `scenes/02_triangles_textures/marble.json`.
-
-![](images/marble-128spp.png)
-
-Image texture mapping (2.5 pts)
-===============================
-
-The ImageTexture class (1 pts)
-------------------------------
-
-Read Chapter 5 of the book and implement image texturing mapping. We already provide you with image loading support, which you should leverage using the Image3f class. Your `ImageTexture` class should accept a `"filename"` string parameter from the json object. Once you read this string, use the global file resolver to resolve this filename into a path, like so:
-
-~~~ C++
-string path = getFileResolver().resolve(filename).str();
-~~~
-
-`getFileResolver()` is defined in `common.h`.
+!!! Tip:
+    In neat feature of axis-aligned bounding boxes (and rays) is that the concept easily extends to arbitrary dimensions. Our implementation is generic, providing a single `template` class that works for $N$-dimensional boxes. Take a look at how this is accomplished in `&lt;dirt/box.h&gt;`. We also provide an implementation of a ray-box intersection routine, similar to the one described in [Section 3.5](https://raytracing.github.io/books/RayTracingTheNextWeek.html#boundingvolumehierarchies/anoptimizedaabbhitmethod). But again, our code works in arbitrary dimensions (even though we will only use the 3D version in this class).
 
 
-Texture coordinates (1.5 pts)
------------------------------
+Hierarchy construction and traversal (Undergrads: 3 pts, Grads: 2 pts)
+======================================================================
 
-Extend your `Sphere::intersect` function to output the UV coordinates as described in the book.
+Read [Sections 3.6](https://raytracing.github.io/books/RayTracingTheNextWeek.html#boundingvolumehierarchies/constructingboundingboxesforhittables)–[3.10](https://raytracing.github.io/books/RayTracingTheNextWeek.html#boundingvolumehierarchies/theboxcomparisonfunctions) of the book to understand how the internals of a bounding volume hierarchy work.
 
-You should now be able to render `scenes/02_triangles_textures/earth.json`
+Now open up `src/bbh.cpp` and take a look at `BBHNode::intersect` and `BBHNode::BBHNode`. The former traverses the hierarchy and tests for intersections with the ray, and the latter is the constructor that builds the hierarchy given a list of primitives.
 
-![](images/earth-ref.png)
+We largely follow the design in the book, so it should be relatively easy to implement these methods if you follow the book. Note that C++11 allows us to do certain things easier than the code style used in the book (e.g. sorting a lists of things based on a custom criterion). Take a look at the hints in the base code for more information.
 
-Now, extend your `Quad::intersect` function to output UV coordinates. Render `scenes/02_triangles_textures/textured-box.json`. 
+Once you think your code is correct, you can test your implementation on the test scenes we provide. Run the `dirt` application from the terminal on the `02_raytrace_faster/simple/simple-geometry.json` scene. This is the same scene as before, but this time using a BBH. You should produce the exact same image, but much faster. Also take a look at the _Average number of intersection tests per ray_ statistic that the code outputs after rendering; this should be around 20 $\times$ lower compared to the image you rendered in [Task 1](#ray-triangleintersection(2pts)).
 
-![](images/textured-box-ref.png)
+If your image is correct, you can go ahead and stress test your code on some more complex scenes. Run the dirt application on all the scenes in the **FIXME** `scenes/02_raytrace_faster/complex` folder. You should get images similar to the reference images below (just noisier):
 
-Finally, extend `Triangle::intersect` to output UV coordinates. You will need to extend `singleTriangleIntersect` to take three `Vec2f` pointers (the uv coordinates for each vertex), in addition to the positions and normals. As with the normals, if the mesh doesn't provide per-vertex UV coorinates, we'll need to fall back to some reasonable default. In this case, you should just store the barycentric coordinates in place of interpolated UV coordinates.
+![](images/bunny-dragons.png width="95%") ![](images/sponza-buddha.png width="95%") ![](images/buddha-cornell-box.png width="95%")
 
-Render `scenes/02/triangles_textures/teapot.json` (a scene with a mesh that has texture coordinates and a texture applied).
+Extensions (Undergrads: 3 pts, Grads: 2pts)
+===========================================
 
-![](images/teapot-ref.png)
+The BBH presented in the book is simple to implement, but has a lot of potential for improvement (i.e., it's a bit slow).
 
-Blend material (1 pts)
-======================
+For your final task, it is your job to optimize your BBH and measure the improvements you've made. You should implement at least **two** ideas for improving your BBH, and measure the reduction in render time (while your computer is not doing anything else) as well as the reduction in the average number of intersection tests, which dirt will report when it finishes rendering an image.
 
-Now let's create a `BlendMaterial` that is a blend between two other materials. This material should store two `shared_ptrs` to `Materials` (specified as `"a"` and `"b"` in the JSON file), and a `shared_ptr` to a `Texture` (`"amount"` in JSON) specifying the amount of blend between "a" and "b". You'll need to update the parser to support this material type.
+To help get you started, here is a list of potential ideas you could implement to improve your code:
 
-In the scatter function, you will need to evaluate the blend amount texture, convert this value to a scalar (e.g. using `luminance()`) and then draw a random number using `randf()`. If `randf()` is less than the blend amount, then call the scatter function of material b, otherwise, call the scatter function of material a.
+* If you followed the book, then you will pick the splitting axis randomly while you construct the BBH. There are a couple problems with this: 1) using a _global_ random number generator like this becomes problematic once you consider improving performance via parallelism, and 2) you can construct much better BBHs with just a few small changes. Think about how you could cleverly pick your splitting axis to improve performance. For example, you could split the axis along which the bounding box is the longest, or you could pick a fixed axis at each level of recursion (e.g. x-axis at the root, y-axis in the direct children of the root, z-axis in the grand-children, x-axis in the great-grand children etc.). Which method performs the best?
 
-Render `scenes/02_triangles_textures/blend.json`.
+* The book recommend using [`std::sort()`](https://en.cppreference.com/w/cpp/algorithm/sort) to sort the primitives along the chosen axis. However, we don't actually need to fully sort the primitives along the axis. All we need is to identify the primitive which should be the _median_ element (the primitive in the middle of the list _if_ it were sorted), and put all primitives left of this median (along the chosen axis) in the first half of the list, and all those right of the median in the second half of the list. This theoretically should require less work because the left and right sublists themselves don't need to be sorted -- we just need to identify which primitives should go into each sublist. C++ has a ready-made algorithm for this called [`std::nth_element()`](https://en.cppreference.com/w/cpp/algorithm/nth_element). The good news is that its runtime complexity is linear in the number of elements in the list, while sorting is log-linear. Figure out how to use this instead of `std::sort()` by reading the [documentation]((https://en.cppreference.com/w/cpp/algorithm/nth_element). Once you have it working, compare the time it takes to build the BBH. The resulting tree should still be exactly the same as before, but it should build considerably faster.
 
-![](images/blend-ref.png)
+* The book splits the list of primitives so that the left and right child contain the same number or primitives. This is called the median or _equal_ split, and it produces a balanced binary tree. From your data structures class you learned that balanced trees are often what you want when you're searching in a list -- it leads to good worst-case runtime. In ray tracing, however, balanced trees can perform poorly if the primitives are not distributed uniformly, but cluster on one side. In that case, you could to better by splitting a node at the spatial midpoint or _middle_. Pick the center of the bounding box of the primitives of the node, and _partition_ the primitives so that all those whose centroids lie to the left of the midpoint (along the splitting axis) go in one child, and all those to the right go in the other child (you will likely end up with a different number of primitives for each child). Again, C++ has a ready-made function for this, suitably named [`std::partition`](https://en.cppreference.com/w/cpp/algorithm/partition) Allow the user to choose between the `"equal"` and `"middle"` strategies by specifying a `"split_method"` field in the JSON file -- our basecode already reads this field and stores it in the BBH class. Does this improve things? Under which circumstances?
 
-Interesting scene (2 pts)
-=========================
+* Following the book, each BBH node always has two children. This is fine for internal nodes, but you can lose some efficiency in the leaf nodes, which might benefit from storing more than just two primitives. Modify your implementation such that leaf nodes store a list of primitives instead of only two children (there are different ways to do this). Whenever the number primitives is less than a certain threshold during BBH node construction, turn it into a leaf node; otherwise, an internal node. Play around with this threshold. Does this make things faster? For which thresholds and which scenes?
 
-Now create an interesting scene (or scenes) showcasing all the features you've implemented. Be creative. Find some interesting textures online, or create some new procedural textures by combining your existing functionality. Consider applying textures to various parts of a material, like the blend factor, the roughness, and emission.
+* Building the BBH can still be pretty time consuming for very big scenes (sometimes it can even take longer then rendering the scene!). There is a lot of opportunity to further accelerate this through thread-level parallelism. Note that once we split a node, we recursively build both the left and right children. These two computations are independent and could be performed in parallel. Make your BBH construction multi-threaded. A simple way to do this in C++11 is to use the [`std::async`](https://en.cppreference.com/w/cpp/thread/async) and [`std::future`](https://en.cppreference.com/w/cpp/thread/future). You can take a look at `include/dirt/parallel_for.h` in the base code for an example how to use these concepts to execute multiple functions in parallel.
 
-What to submit
-==============
+These are just examples. If you can come up with your own ideas that are on a similar scope as the suggestions, feel free to implement those ideas instead.
 
-**Please read the following instructions carefully: Include the required files and nothing else. Do not pack the required files into a containing folder, just zip the files directly.**
+Surface area heuristic (Grad students only, 2pts)
+=================================================
 
-Please edit the `report/report.html` report template and fill in your feedback, comments and optional explanations. Add a section for each task. If a task provides a reference image, please include a comparison between the image produced by your code and the reference (the template shows you how to do this easily).
+On top of the improvements in the previous task, implement the surface area heuristic (SAH) in your BBH construction.
 
-Upload a zip file containing
+You can check the [BVH section of the PBRT textbook](https://www.pbr-book.org/3ed-2018/Primitives_and_Intersection_Acceleration/Bounding_Volume_Hierarchies#) for more information on how it works. The basic idea is to split the list of primitives not simply in the middle or at the median, but split it at a point that minimizes an approximate expression for the cost intersecting the tree.
 
-*   The source code (the entire _include_ and _src_ folders)
-*   Your interesting scene
-*   Rendered images of all the scenes in _scenes/02_triangles_textures_ and your interesting scene
-*   The `report` folder.
 
-**Do not submit any binaries. Do not include your build folder in the zip file. Do not put the required files/folders into a containing folder; zip them directly and submit the zip file.**
+Evaluation scene and leaderboard (1 pt)
+=======================================
+
+We've designed a scene for you to evaluate the performance of all your BBH improvements. **FIXME: complete this section**
+
+
+What to hand in
+===============
+
+You should submit a zip file containing
+
+*   The source code with your changes (the entire `src` folder)
+*   Images of all provided scenes as produced by your raytracer. After you finish the assignment, run `build/dirt` on all scenes in `scenes/02_raytrace_faster`, and add the images to the zip.
+*   A 'README.md' file containing the output of the `02_test_triangle_intersection` applications.
+*   Also add the ray traversal stats (average ray-primitive intersection tests) performance of your BBH on the different scenes provided (don't change the view location or other scene parameters).
+*   Report any problems you've experienced or any further comments you want to add.
+
+Do not submit binaries. Do not include your build folder (they can get quite large).
 
 <script>
 markdeepOptions = {tocStyle: 'medium'};
